@@ -84,6 +84,24 @@
 
 
 
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#admin-appointment-offer-pages"
+                    aria-expanded="true" aria-controls="admin-appointment-pages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span> {{ $websiteLang->where('lang_key','app_offer')->first()->custom_lang }}</span>
+                </a>
+                <div id="admin-appointment-offer-pages" class="collapse {{Route::is('admin.all.appointment.offer')  ? 'show':'' }}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item {{ Route::is('admin.all.appointment.offer')?'active':'' }}" href="{{ route('admin.all.appointment.offer') }}">{{ $websiteLang->where('lang_key','all_app_offer')->first()->custom_lang }}</a>
+
+                        
+                    </div>
+                </div>
+            </li>
+
+
+
+
 
 
              <!-- Nav Item - Pages Collapse Menu -->
@@ -118,6 +136,25 @@
 
                         <a class="collapse-item {{ Route::is('admin.location.*')?'active':'' }}" href="{{ route('admin.location.index') }}">{{ $websiteLang->where('lang_key','location')->first()->custom_lang }}</a>
                         <a class="collapse-item {{ Route::is('admin.doctor.*')?'active':'' }}" href="{{ route('admin.doctor.index') }}">{{ $websiteLang->where('lang_key','doctor')->first()->custom_lang }}</a>
+
+
+
+                    </div>
+                </div>
+            </li>
+
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#offers-2-pages"
+                    aria-expanded="true" aria-controls="offers-2-pages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>{{ $websiteLang->where('lang_key','offers')->first()->custom_lang }}</span>
+                </a>
+                <div id="offers-2-pages" class="collapse {{ Route::is('admin.offers.*')?'show':'' }}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+
+                        <a class="collapse-item {{ Route::is('admin.offers.*')?'active':'' }}" href="{{ route('admin.offers.index') }}">{{ $websiteLang->where('lang_key','offers')->first()->custom_lang }}</a>
 
 
 

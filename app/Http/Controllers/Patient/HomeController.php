@@ -42,6 +42,7 @@ use Mail;
 use App\Rules\Captcha;
 use App\Helpers\MailHelper;
 use App\CustomPaginator;
+use App\Offer;
 use Illuminate\Pagination\Paginator;
 class HomeController extends Controller
 {
@@ -86,6 +87,16 @@ class HomeController extends Controller
         $navigation=Navigation::first();
 
         return view('patient.about',compact('about','title_meta','work','workFaqs','overviews','banner','navigation','about_count'));
+    }
+
+    public function offers(){
+        $offersection=HomeSection::where('id',8)->first();
+        $title_meta=$this->title_meta;
+        $banner=$this->banner;
+        $offers=Offer::where('status',1)->get();
+        $navigation=Navigation::first();
+
+        return view('patient.offer',compact('navigation','offers','banner','title_meta','offersection'));
     }
 
     public function Faq(){
@@ -386,4 +397,7 @@ class HomeController extends Controller
         $navigation=Navigation::first();
         return view('patient.custom-page',compact('page','title_meta','banner','navigation'));
     }
+
+
+    
 }

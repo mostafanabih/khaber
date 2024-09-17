@@ -35,6 +35,7 @@ use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\DoctorController;
+use App\Http\Controllers\Admin\OfferController;
 use App\Http\Controllers\Admin\ConditionPrivacyController;
 use App\Http\Controllers\Admin\ContactUsController;
 use App\Http\Controllers\Admin\ContactInformationController;
@@ -55,6 +56,7 @@ use App\Http\Controllers\Admin\SubscriberController;
 use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\AdminAppointmentController;
+use App\Http\Controllers\Admin\AdminAppointmentOfferController;
 use App\Http\Controllers\Admin\PateintController;
 use App\Http\Controllers\Admin\CustomePageController;
 use App\Http\Controllers\Admin\PrescribeController;
@@ -88,8 +90,6 @@ use Illuminate\Support\Facades\Route;
 
 
 
-
-
 Route::get('/',[HomeController::class,'index'])->name('home');
 Route::get('/about-us',[HomeController::class,'aboutUs']);
 Route::get('/offers',[HomeController::class,'offers']);
@@ -117,6 +117,7 @@ Route::get('get-appointment/',[AppointmentController::class,'getAppointment']);
 Route::get('get-department-doctor/{id}',[AppointmentController::class,'getDepartmentDoctor']);
 //appointment add to cart
 Route::post('create-appointment',[AppointmentController::class,'createAppointment']);
+Route::post('create-appointment-offer',[AppointmentController::class,'createAppointmentWithOffer'])->name('createAppointmentWithOffer');
 Route::get('remove-appointment/{id}',[AppointmentController::class,'removeAppointment']);
 // Subscribe us
 Route::post('subscribe-us',[HomeController::class,'subscribeUs']);
@@ -286,7 +287,9 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin'],function (){
 
     // manage Doctor
     Route::resource('doctor', DoctorController::class);
+    Route::resource('offers', OfferController::class);
     Route::get('doctor-status/{id}',[DoctorController::class,'changeStatus'])->name('doctor.status');
+    Route::get('offer-status/{id}',[OfferController::class,'changeStatus'])->name('offers.status');
 
     // Terms-condition and privacy-policy
     Route::resource('terms-privacy', ConditionPrivacyController::class);
@@ -423,6 +426,14 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin'],function (){
     Route::get('all-appointment',[AdminAppointmentController::class,'allAppointment'])->name('all.appointment');
     Route::get('appointment-show/{id}',[AdminAppointmentController::class,'show'])->name('appointment.show');
     Route::get('approved-payment/{id}',[AdminAppointmentController::class,'approvedPayment'])->name('approved.payment');
+
+
+    // appointment with offer
+    Route::get('pending-appointment-offer',[AdminAppointmentOfferController::class,'pendingAppointment'])->name('pending.appointment.offer');
+    Route::get('new-appointment-offer',[AdminAppointmentOfferController::class,'newAppointment'])->name('new.appointment.offer');
+    Route::get('all-appointment-offer',[AdminAppointmentOfferController::class,'allAppointment'])->name('all.appointment.offer');
+    Route::get('appointment-offer-show/{id}',[AdminAppointmentOfferController::class,'show'])->name('appointment.offer.show');
+
 
     // patients
     Route::get('patients',[PateintController::class,'index'])->name('patients');

@@ -27,6 +27,7 @@ $setting=App\Setting::first();
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Stylesheets -->
+     <!-- Swiper CSS -->
     <link rel="stylesheet" href="{{ asset('patient/css/animate.min.css') }}">
     <link rel="stylesheet" href="{{ asset('patient/css/animate.css') }}">
     <link rel="stylesheet" href="{{ asset('patient/css/bootstrap.min.css') }}">
@@ -52,6 +53,8 @@ $setting=App\Setting::first();
     
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
 
 
     <link rel="stylesheet" href="{{ asset('patient/css/style.css') }}">
@@ -405,12 +408,12 @@ $setting=App\Setting::first();
     <div id="strickymenu" class="menu-area">
         <div class="container">
             <div class="row">
-                <div class="col-md-3 col-6">
+                <div class="col-md-2 col-6">
                     <div class="logo flex">
                         <a href="{{ url('/') }}"><img src="{{ asset($logo->logo) }}" alt="Logo"></a>
                     </div>
                 </div>
-                <div class="col-md-9 col-6">
+                <div class="col-md-10 col-6">
                     <div class="main-menu">
                         <ul class="nav-menu">
                             @if ($navbar->show_homepage)

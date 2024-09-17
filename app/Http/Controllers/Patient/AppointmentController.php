@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Patient;
 
+use App\AppointmentWithOffer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Day;
@@ -125,4 +126,51 @@ class AppointmentController extends Controller
 
         return back()->with($notification);
     }
+
+    
+
+
+    public function createAppointmentWithOffer(Request $request){
+        $data=$request->all();
+        AppointmentWithOffer::create($data);
+        
+        $notify_lang=NotificationText::all();
+        $notification=$notify_lang->where('lang_key','app')->first()->custom_lang;
+        $notification=array('messege'=>$notification,'alert-type'=>'success');
+        
+        
+        
+        
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+
+        $eventPhn = '966' . ltrim($request->phone, '0');
+
+        $url = 'https://ksa-api.com/api/send_massages';
+        $data = array(
+            'number' => $eventPhn,
+            'body' => 'شكرا علي تواصلكم معنا تم انشاء حساب لدي مجمع النعيم الطبي',
+            'url' => 'https://land.wmc-ksa.com/social/public/image/wmc-logo.png',
+            'type' => 'image',
+            'token' => '72|BaWdbyfQsE34JyUs63MLpkJSExBPsbPkavfl8o5Vab61788a'
+        );
+
+        $options = array(
+            'http' => array(
+                'header'  => "Content-type: application/json\r\n",
+                'method'  => 'POST',
+                'content' => json_encode($data)
+            )
+        );
+
+        $context  = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+        
+        
+
+        return redirect()->back()->with($notification);
+    }
+
+
 }

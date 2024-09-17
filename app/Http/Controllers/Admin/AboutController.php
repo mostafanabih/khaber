@@ -203,7 +203,7 @@ class AboutController extends Controller
             $vision_path='uploads/website-images/'.$vision_name;
             $root_path=request()->getHost();
 
-            Image::make($mission_image)
+            Image::make($vision_image)
                     ->resize(1000,null,function ($constraint) {
                         $constraint->aspectRatio();
                     })->crop(525,452)

@@ -807,7 +807,7 @@ ul.nav-menu li:hover .mega-menu {
 }
 
 #strickymenu.sticky .logo img {
-    height: 56px;
+    height: 80px;
 }
 
 #strickymenu.sticky ul.nav-menu li a {
@@ -1844,8 +1844,26 @@ Counterup-Area
     background-size: cover;
     background-repeat: no-repeat;
     border-radius: 5px;
-    background: #1977f4;
-}
+    overflow: hidden; /* Ensure the overlay covers the entire div */
+  }
+  
+  .counter-row::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 82, 138, 0.8); /* Adjust the color and opacity as needed */
+    z-index: 1;
+  }
+  
+  .counter-row > * {
+    position: relative;
+    z-index: 2; /* Ensure the content is on top of the overlay */
+  }
+
+
 
 .counter-item {
     text-align: center;
@@ -11682,3 +11700,125 @@ button {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
+
+
+
+/*** 	09. Recent Project css    ***/
+/************************************/
+
+.recent-project{
+	padding: 100px 0 70px;
+}
+
+.project-slider{
+	position: relative;
+	width: 1180px;
+	margin: 0 auto;
+}
+
+.project-item{
+	position: relative;
+    overflow: hidden;
+	text-align: center;
+	border-radius: 10px;
+	margin-bottom: 30px;
+}
+
+.project-image img{
+	position: relative;
+	width: 100%;
+	aspect-ratio: 1 / 1.2;
+	object-fit: cover;
+	text-align: center;
+	transition: all 0.5s ease-out;
+}
+
+.project-item:hover .project-image figure img{
+    transform: scale(1.1);
+}
+
+.project-content{
+	content: "";
+	position: absolute;
+	transition: .5s;
+	bottom: 30px;
+	left: 30px;
+	right: 30px;
+	transform: translateY(100%);
+	opacity: 0;
+	display: flex;
+	z-index: 1;
+	align-items: flex-end;
+	justify-content: flex-end;
+    background-color: #fff;
+}
+
+.project-item:hover .project-content{
+	transform: translateY(0);
+	opacity: 1;
+	transition: all 0.3s ease-in-out;
+}
+
+.project-content-title{
+	background-color: var(--white-color);
+	box-shadow: 0px 10px 50px 0px rgba(3, 75, 91, 0.10);
+	border-radius: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	padding: 15px;
+}
+
+.project-content-title h3{
+	font-size: 18px;
+	font-weight: 600;
+	color: var(--primary-color);
+	text-transform: capitalize;
+}
+
+.project-content-title h3 a{
+	color: inherit;
+}
+
+.project-content-title i{
+	font-size: 20px;
+	color: #6da32b !important;
+}
+
+.client-button-prev{
+	left: -4%;
+}
+
+.client-button-next{
+	right: -4%;
+}
+
+.client-button-prev,
+.client-button-next{
+	color: #6da32b !important;
+	font-size: 40px;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 1;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+    /* margin: 0 -10px; */
+}
+
+.client-button-next:hover,
+.client-button-prev:hover{
+	color: var(--primary-color);
+	opacity: 1;
+}
+
+.offer-title{
+    color: #6da32b !important;
+}
+
+.offer-title-span{
+    color: #000 !important;
+}
+
+/************************************/

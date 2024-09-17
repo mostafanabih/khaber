@@ -7,7 +7,7 @@
 @endphp
 
 <!--Start of Tawk.to Script-->
-@if ($subscriberContent->live_chat==1)
+<!-- @if ($subscriberContent->live_chat==1)
 <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
     (function(){
@@ -19,7 +19,7 @@
         s0.parentNode.insertBefore(s1,s0);
     })();
 </script>
-@endif
+@endif -->
 <!--End of Tawk.to Script-->
 
 <!--Subscribe Start-->
@@ -303,6 +303,26 @@
       },
     });
   });
+</script>
+<script>
+    var swiper = new Swiper(".offers", {
+        slidesPerView: 3,
+  spaceBetween: 30,
+  pagination: {
+    el: ".swiper-pagination",
+    clickable: true,
+  },
+  navigation: {
+    nextEl: ".client-button-next",
+    prevEl: ".client-button-prev",
+  },
+  autoplay: {
+    delay: 3000, // Time in milliseconds before the next slide
+    disableOnInteraction: false, // Keep autoplay going even if the user interacts with the slider
+  },
+  loop: true, // Restart the slider from the beginning once it reaches the end
+});
+
 </script>
 
 
@@ -692,6 +712,80 @@ $(function() {
     }
 
 </script>
+
+<script>
+    $(document).ready(function() {
+    $('[data-toggle="modal"][data-target="#offer_modal"]').on('click', function() {
+        var offerId = $(this).data('offer-id');
+        var offerImage = $(this).data('offer-img');
+        var offerName = $(this).data('offer-name');
+        updateModalContent(offerName,offerId,offerImage);
+    });
+});
+
+function updateModalContent(offerName,offerId,offerImage) {
+    var modal = $('#offer_modal');
+    modal.find('.modal-title').text(' بادر بالحجز الان مع عرض ' + offerName);
+    $('#servicerb').val(offerId); // Set the value of the #servicerb input field
+    $('#offer_modal img').attr('src', offerImage); // Set the image source in the modal
+    // Update other modal content as needed
+}
+</script>
+
+<script>
+
+$(document).ready(function () {
+ 
+	var currentdate = new Date(); 
+var datetime = "" + currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + "  "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+
+                // alert(datetime);
+
+      const scriptURL = "https://script.google.com/macros/s/AKfycbzuZxUr8-F8mHZPeFACyzgKDHvY-3gVry-pqSv2DZdZ2KVjb2qNJhOAOuySYEyMb7yhMA/exec";
+      //alert(scriptURL);
+  const form = document.forms['myform']
+ 
+  form.addEventListener('submit', e => {
+
+
+    
+	$(':input[type=submit]').prop('disabled', true)
+  $('#today').attr('value', datetime )
+  $('#w_link_id').attr('value', 'wa.me/966'+$("#phn_id").val() )
+//   element.style.display = "block"
+  //alert("progress")
+    e.preventDefault()
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+      .then(response => 
+
+      google_response()
+    
+	  )
+      .catch(error => console.error('Error!', error.message))
+  })
+
+
+    
+  function google_response() {
+  
+    event_service=$("#servicerb").val();
+   
+    alert("تمت عملية التسجيل بخصوص خدمه " + event_service + "بنجاح وسيتم التواصل معك في اقرب وقت ")
+
+}
+
+$('#offer_modal').modal('hide');
+
+	
+});
+
+    </script>
+
 
 </body>
 

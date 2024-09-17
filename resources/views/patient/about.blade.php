@@ -37,10 +37,10 @@
                 </div>
             </div>
             <div class="col-lg-5">
-                <div class="about1-bgimg mt_30" style="background-image:url({{ $banner->about_us_bg ? url($about->background_image) : '' }});">
-                    <div class="about1-inner">
+                <div class="about1-bgimg mt_30" style="background-image:url({{url ($about->about_image) }});">
+                    <!-- <div class="about1-inner">
                         <img src="{{url ($about->about_image) }}" alt="">
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
