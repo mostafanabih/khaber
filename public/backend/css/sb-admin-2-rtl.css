@@ -13220,7 +13220,7 @@ a:focus {
 }
 
 .sidebar .nav-item .nav-link span {
-    font-size: 1rem;
+    font-size: 1.05rem;
     display: block;
 }
 
@@ -13400,7 +13400,7 @@ a:focus {
         margin-right: 0.25rem;
     }
     .sidebar .nav-item .nav-link span {
-        font-size: 0.85rem;
+        font-size: 1.05rem;
         display: inline;
     }
     .sidebar .nav-item .nav-link[data-toggle="collapse"]::after {

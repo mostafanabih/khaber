@@ -5,10 +5,13 @@ $logo=App\Setting::first();
 $websiteLang=App\ManageText::all();
 $setting=App\Setting::first();
 @endphp
+@php
+$translator = new Stichoza\GoogleTranslate\GoogleTranslate('ar');
+@endphp
 
 <!DOCTYPE html>
 @if ($setting->text_direction=='RTL')
-<html class="no-js" lang="en" dir="rtl">
+<html class="no-js" lang="ar" dir="rtl">
 @else
 <html class="no-js" lang="en">
 @endif
@@ -113,7 +116,7 @@ $setting=App\Setting::first();
         }
 
         .choose-item:before{
-            background: {{ $logo->theme_one }} !important;
+            background: rgba(0,82,138,.8) !important;
         }
         .header-area:before,
         .header-area:after{
@@ -291,6 +294,15 @@ $setting=App\Setting::first();
 }
 
 
+.main-nav-link:hover{
+    border-radius:10px;
+    color:#fff;
+    background-color:#00528a;
+}
+
+
+
+
 
     </style>
 
@@ -312,7 +324,7 @@ $setting=App\Setting::first();
 
     <!--Preloader Start-->
     @if ($logo->preloader==1)
-    <div id="preloader">
+    <div id="preloader" >
         <div id="status" style="background-image: url({{ url($logo->preloader_image) }})"></div>
      </div>
     @endif
@@ -336,13 +348,13 @@ $setting=App\Setting::first();
                                         <li><a href="{{ $contact->facebook }}"><i class="fab fa-facebook-f"></i></a></li>
                                         @endif
                                         @if ($contact->twitter)
-                                        <li><a href="{{ $contact->twitter }}"><i class="fab fa-twitter"></i></a></li>
+                                        <li><a href="{{ $contact->twitter }}"><i class="fab fa-snapchat"></i></a></li>
                                         @endif
                                         @if ($contact->linkedin)
-                                        <li><a href="{{ $contact->linkedin }}"><i class="fab fa-linkedin-in"></i></a></li>
+                                        <li><a href="{{ $contact->linkedin }}"><i class="fab fa-tiktok"></i></a></li>
                                         @endif
                                         @if ($contact->pinterest)
-                                        <li><a href="{{ $contact->pinterest }}"><i class="fab fa-pinterest-p"></i></a></li>
+                                        <li><a href="{{ $contact->pinterest }}"><i class="fab fa-instagram"></i></a></li>
                                         @endif
                                         @if ($contact->youtube)
                                         <li><a href="{{ $contact->youtube }}"><i class="fab fa-youtube"></i></a></li>
@@ -405,70 +417,65 @@ $setting=App\Setting::first();
         $customPage=App\CustomePage::where('status',1)->get();
     @endphp
     <!--Menu Start-->
-    <div id="strickymenu" class="menu-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-2 col-6">
-                    <div class="logo flex">
-                        <a href="{{ url('/') }}"><img src="{{ asset($logo->logo) }}" alt="Logo"></a>
-                    </div>
+<div id="strickymenu" class="menu-area">
+    <div class="container">
+        <div class="row" style="display: flex;align-items: center;">
+            <div class="col-md-2 col-6">
+                <div class="logo flex">
+                    <a href="{{ url('/') }}"><img src="{{ asset($logo->logo) }}" alt="Logo"></a>
                 </div>
-                <div class="col-md-10 col-6">
-                    <div class="main-menu">
-                        <ul class="nav-menu">
-                            @if ($navbar->show_homepage)
-                            <li><a href="{{ url('/') }}">{{ $navigation->home }}</a></li>
-                            @endif
-                            @if ($navbar->show_aboutus)
-                            <li><a href="{{ url('about-us') }}">{{ $navigation->about_us }}</a></li>
-                            @endif
-                             <li><a href="{{ url('offers') }}">{{ $navigation->offers }}</a></li>
-                            <li class="menu-item-has-children"><a href="javascript:void;">{{ $navigation->pages }}</a>
-                                <ul class="sub-menu">
-                                    @if ($navbar->show_doctor)
-                                    <li><a href="{{ url('doctor') }}">{{ $navigation->doctor }}</a></li>
-                                    @endif
-                                    @if ($navbar->show_department)
-                                    <li><a href="{{ url('department') }}">{{ $navigation->department }}</a></li>
-                                    @endif
-                                    @if ($navbar->show_service)
-                                    <li><a href="{{ url('service') }}">{{ $navigation->service }}</a></li>
-                                    @endif
-                                    @if ($navbar->show_testimonial)
-                                    <li><a href="{{ url('testimonial') }}">{{ $navigation->testimonial }}</a></li>
-                                    @endif
-
-                                    @if ($customPage->count()!=0)
-                                        @foreach ($customPage as $page)
-                                        <li><a href="{{ url('custom-page/'.$page->slug) }}">{{ $page->page_name }}</a></li>
-                                        @endforeach
-                                    @endif
-
-                                </ul>
-                            </li>
-                            @if ($navbar->show_faq)
-                                <li><a href="{{ url('faq') }}">{{ $navigation->faq }}</a></li>
-                            @endif
-                           @if ($navbar->show_blog)
-                           <li><a href="{{ url('blog') }}">{{ $navigation->blog }}</a></li>
-                            @endif
-                           @if ($navbar->show_contactus)
-                           <li><a href="{{ url('contact-us') }}">{{ $navigation->contact_us }}</a></li>
-                            @endif
-                            <li class="special-button pulsate"><a href="" data-toggle="modal" data-target="#appointment_modal">{{ $navigation->appointment }}</a></li>
-
-                        </ul>
-                    </div>
-
-                    <!--Mobile Menu Icon Start-->
-                    <div class="mobile-menuicon">
-                        <span class="menu-bar" onclick="openNav()"><i class="fas fa-bars" aria-hidden="true"></i></span>
-                    </div>
-                    <!--Mobile Menu Icon End-->
+            </div>
+            <div class="col-md-10 col-6">
+                <div class="main-menu">
+                    <ul class="nav-menu">
+                        @if ($navbar->show_homepage)
+                        <li class="main-nav-link"><a class="main-nav-a" href="{{ url('/') }}">@if($setting->text_direction=='RTL'){{ $navigation->home}}@else{{ $translator->setTarget('en')->translate($navigation->home) }}@endif</a></li>
+                        @endif
+                        @if ($navbar->show_aboutus)
+                        <li class="main-nav-link"><a href="{{ url('about-us') }}">@if($setting->text_direction=='RTL'){{ $navigation->about_us}}@else{{ $translator->setTarget('en')->translate($navigation->about_us) }}@endif</a></li>
+                        @endif
+                        <li class="main-nav-link"><a href="{{ url('offers') }}">@if($setting->text_direction=='RTL'){{ $navigation->offers}}@else{{ $translator->setTarget('en')->translate($navigation->offers) }}@endif</a></li>
+                        @if ($navbar->show_doctor)
+                        <li class="main-nav-link"><a href="{{ url('doctor') }}">@if($setting->text_direction=='RTL'){{ $navigation->doctor}}@else{{ $translator->setTarget('en')->translate($navigation->doctor) }}@endif</a></li>
+                        @endif
+                        @if ($navbar->show_department)
+                        <li class="main-nav-link"><a href="{{ url('department') }}">@if($setting->text_direction=='RTL'){{ $navigation->department}}@else{{ $translator->setTarget('en')->translate($navigation->department) }}@endif</a></li>
+                        @endif
+                        <li class="main-nav-link"><a href="" data-toggle="modal" data-target="#employment_application_modal">@if($setting->text_direction=='RTL'){{$navigation->employment_application}}@else{{ $translator->setTarget('en')->translate($navigation->employment_application) }}@endif</a></li>
+                        @if ($navbar->show_contactus)
+                        <li class="main-nav-link"><a href="{{ url('contact-us') }}">@if($setting->text_direction=='RTL'){{ $navigation->contact_us}}@else{{ $translator->setTarget('en')->translate($navigation->contact_us) }}@endif</a></li>
+                        @endif
+                        <li class="special-button pulsate">
+                            <a href="" data-toggle="modal" data-target="#appointment_modal">
+                                @if($setting->text_direction=='RTL')
+                                    {{ $navigation->appointment }}
+                                @else
+                                    {{ $translator->setTarget('en')->translate($navigation->appointment) }}
+                                @endif
+                            </a>
+                        </li>
+                        <li class="language-switcher">
+                            <a href="#" onclick="toggleLanguage()">
+                                @if($setting->text_direction == 'RTL')
+                                    En
+                                @else
+                                    العربيه
+                                @endif
+                            </a>
+                        </li>
+                    </ul>
                 </div>
+
+                <!--Mobile Menu Icon Start-->
+                <div class="mobile-menuicon">
+                    <span class="menu-bar" onclick="openNav()"><i class="fas fa-bars" aria-hidden="true"></i></span>
+                </div>
+                <!--Mobile Menu Icon End-->
             </div>
         </div>
     </div>
+</div>
+<!--Menu End-->
     @php
     $modalDepartments=App\Department::where('status',1)->get();
 @endphp
@@ -480,48 +487,57 @@ $setting=App\Setting::first();
 
             <ul>
                 @if ($navbar->show_homepage)
-                <li><a href="{{ url('/') }}">{{ $navigation->home }}</a></li>
+                <li><a href="{{ url('/') }}">@if($setting->text_direction=='RTL'){{ $navigation->home}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->home) }}
+                            @endif</a></li>
                 @endif
                 @if ($navbar->show_aboutus)
-                <li><a href="{{ url('about-us') }}">{{ $navigation->about_us }}</a></li>
+                <li><a href="{{ url('about-us') }}">@if($setting->text_direction=='RTL'){{$navigation->about_us}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->about_us) }}
+                            @endif</a></li>
                 @endif
-                <li class="menu-child"><span>{{ $navigation->pages }}</span>
-                    <ul>
-                        @if ($navbar->show_doctor)
-                        <li><a href="{{ url('doctor') }}">{{ $navigation->doctor }}</a></li>
-                        @endif
-                        @if ($navbar->show_department)
-                        <li><a href="{{ url('department') }}">{{ $navigation->department }}</a></li>
-                        @endif
-                        @if ($navbar->show_service)
-                        <li><a href="{{ url('service') }}">{{ $navigation->service }}</a></li>
-                        @endif
-                        @if ($navbar->show_testimonial)
-                        <li><a href="{{ url('testimonial') }}">{{ $navigation->testimonial }}</a></li>
-                        @endif
-                        @if ($customPage->count()!=0)
-                            @foreach ($customPage as $page)
-                            <li><a href="{{ url('custom-page/'.$page->slug) }}">{{ $page->page_name }}</a></li>
-                            @endforeach
-                        @endif
-                    </ul>
-                </li>
-                @if ($navbar->show_faq)
-                            <li><a href="{{ url('faq') }}">{{ $navigation->faq }}</a></li>
-                        @endif
-                        @if ($navbar->show_blog)
-                        <li><a href="{{ url('blog') }}">{{ $navigation->blog }}</a></li>
-                        @endif
+                <li><a href="{{ url('offers') }}">@if($setting->text_direction=='RTL'){{ $navigation->offers}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->offers) }}
+                            @endif</a></li>
+                @if ($navbar->show_doctor)
+                    <li><a href="{{ url('doctor') }}">@if($setting->text_direction=='RTL'){{ $navigation->doctor}}@else
+                {{ $translator->setTarget('en')->translate($navigation->doctor) }}
+                @endif</a></li>
+                @endif
+                @if ($navbar->show_department)
+                <li><a href="{{ url('department') }}">@if($setting->text_direction=='RTL'){{ $navigation->department}}@else
+                {{ $translator->setTarget('en')->translate($navigation->department) }}
+                @endif</a></li>
+                @endif
+                <li><a href="" data-toggle="modal" data-target="#employment_application_modal1">@if($setting->text_direction=='RTL'){{$navigation->employment_application}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->employment_application) }}
+                            @endif</a></li>
+                
                         @if ($navbar->show_contactus)
-                        <li><a href="{{ url('contact-us') }}">{{ $navigation->contact_us }}</a></li>
+                        <li><a href="{{ url('contact-us') }}">@if($setting->text_direction=='RTL'){{ $navigation->contact_us}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->contact_us) }}
+                            @endif</a></li>
                         @endif
-                <li class="special-button"><a href="" data-toggle="modal" data-target="#appointment_modal1">{{ $navigation->appointment }}</a></li>
+                <li class="special-button"><a href="" data-toggle="modal" data-target="#appointment_modal1">@if($setting->text_direction=='RTL'){{ $navigation->appointment}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->appointment) }}
+                            @endif</a></li>
+                            <li class="language-switcher">
+                                <a href="#" onclick="toggleLanguage()">
+                                    @if($setting->text_direction == 'RTL')
+                                        En
+                                    @else
+                                        العربيه
+                                    @endif
+                                </a>
+                            </li>
                  <!-- Modal -->
                  <div class="modal fade" id="appointment_modal1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">{{ $websiteLang->where('lang_key','create_app')->first()->custom_lang }}</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','create_app')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','create_app')->first()->custom_lang) }}
+                            @endif</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -531,38 +547,56 @@ $setting=App\Setting::first();
                                 <form action="{{ url('create-appointment') }}" method="POST">
                                     @csrf
                                     <div class="form-group">
-                                        <label for="">{{ $websiteLang->where('lang_key','select_dep')->first()->custom_lang }}</label>
+                                        <label for="">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','select_dep')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','select_dep')->first()->custom_lang) }}
+                            @endif</label>
                                         <select name="department_id" onchange="loadMobileModalDoctor()" class="form-control modal-department-id mySelect2Item">
-                                            <option value="">{{ $websiteLang->where('lang_key','select_dep')->first()->custom_lang }}</option>
+                                            <option value="">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','select_dep')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','select_dep')->first()->custom_lang) }}
+                            @endif</option>
                                             @foreach ($modalDepartments as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            <option value="{{ $item->id }}">@if($setting->text_direction=='RTL'){{ $item->name}}@else
+                            {{ $translator->setTarget('en')->translate($item->name) }}
+                            @endif</option>
                                             @endforeach
 
                                         </select>
                                     </div>
 
                                     <div class="form-group d-none" id="mobile-modal-doctor-box">
-                                        <label for="">{{ $websiteLang->where('lang_key','select_doc')->first()->custom_lang }}</label>
+                                        <label for="">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','select_doc')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','select_doc')->first()->custom_lang) }}
+                            @endif</label>
                                         <select name="" class="form-control modal-doctor-id mySelect2Item" onchange="loadModalDate()" >
-                                            <option value="">{{ $websiteLang->where('lang_key','select_doc')->first()->custom_lang }}</option>
+                                            <option value="">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','select_doc')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','select_doc')->first()->custom_lang) }}
+                            @endif</option>
                                         </select>
                                     </div>
                                     <div class="form-group d-none" id="mobile-modal-date-box">
-                                        <label for="">{{ $websiteLang->where('lang_key','select_date')->first()->custom_lang }}</label>
+                                        <label for="">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','select_date')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','select_date')->first()->custom_lang) }}
+                            @endif</label>
                                         <input type="text" name="date" class="form-control datepicker" id="mobile-modal-datepicker-value">
                                         <input type="hidden" name="doctor_id" value="" id="mobile_modal_doctor_id">
                                     </div>
 
                                     <div class="form-group d-none" id="mobile-modal-schedule-box">
-                                        <label for="">{{ $websiteLang->where('lang_key','select_schedule')->first()->custom_lang }}</label>
+                                        <label for="">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','select_schedule')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','select_schedule')->first()->custom_lang) }}
+                            @endif</label>
                                         <select name="schedule_id" class="form-control" id="available-mobile-modal-schedule">
 
                                         </select>
                                     </div>
                                     <div id="mobile-modal-schedule-error" class="d-none"></div>
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">{{ $websiteLang->where('lang_key','close')->first()->custom_lang }}</button>
-                                        <input type="submit" value="{{ $websiteLang->where('lang_key','submit')->first()->custom_lang }}" class="btn btn-primary" id="mobile-modal-sub" disabled>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','close')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','close')->first()->custom_lang) }}
+                            @endif</button>
+                                        <input type="submit" value="@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','submit')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','submit')->first()->custom_lang) }}
+                            @endif" class="btn btn-primary" id="mobile-modal-sub" disabled>
                                     </div>
                                 </form>
                             </div>
@@ -571,6 +605,7 @@ $setting=App\Setting::first();
                     </div>
                 </div>
                 <!-- // Modal -->
+                
 
 
 
@@ -587,7 +622,9 @@ $setting=App\Setting::first();
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{ $websiteLang->where('lang_key','create_app')->first()->custom_lang }}</h5>
+                <h5 class="modal-title" id="exampleModalLabel">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','create_app')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','create_app')->first()->custom_lang) }}
+                            @endif</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -599,36 +636,168 @@ $setting=App\Setting::first();
                 <form action="{{ url('create-appointment') }}" method="POST">
                     @csrf
                     <div class="form-group">
-                        <label for="">{{ $websiteLang->where('lang_key','select_doc')->first()->custom_lang }}</label>
+                        <label for="">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','select_doc')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','select_doc')->first()->custom_lang) }}
+                            @endif</label>
                         <select name="department_id" onchange="loadDoctor()" class="form-control department-id select2">
-                            <option value="">{{ $websiteLang->where('lang_key','select_dep')->first()->custom_lang }}</option>
+                            <option value="">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','select_dep')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','select_dep')->first()->custom_lang) }}
+                            @endif</option>
                             @foreach ($modalDepartments as $item)
-                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            <option value="{{ $item->id }}">@if($setting->text_direction=='RTL'){{ $item->name}}@else
+                            {{ $translator->setTarget('en')->translate($item->name) }}
+                            @endif</option>
                             @endforeach
 
                         </select>
                     </div>
                     <div class="form-group d-none" id="modal-doctor-box">
-                        <label for="">{{ $websiteLang->where('lang_key','select_doc')->first()->custom_lang }}</label>
+                        <label for="">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','select_doc')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','select_doc')->first()->custom_lang) }}
+                            @endif</label>
                         <select name="" class="form-control doctor-id select2" onchange="loadDate()" >
-                            <option value="">{{ $websiteLang->where('lang_key','select_doc')->first()->custom_lang }}</option>
+                            <option value="">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','select_doc')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','select_doc')->first()->custom_lang) }}
+                            @endif</option>
                         </select>
                     </div>
                     <div class="form-group d-none" id="modal-date-box">
-                        <label for="">{{ $websiteLang->where('lang_key','select_date')->first()->custom_lang }}</label>
+                        <label for="">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','select_date')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','select_date')->first()->custom_lang) }}
+                            @endif</label>
                         <input type="text" name="date" class="form-control datepicker" id="modal-datepicker-value">
                         <input type="hidden" name="doctor_id" value="" id="modal_doctor_id">
                     </div>
                     <div class="form-group d-none" id="modal-schedule-box">
-                        <label for="">{{ $websiteLang->where('lang_key','select_schedule')->first()->custom_lang }}</label>
+                        <label for="">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','select_schedule')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','select_schedule')->first()->custom_lang) }}
+                            @endif</label>
                         <select name="schedule_id" class="form-control" id="available-modal-schedule">
 
                         </select>
                     </div>
                     <div id="modal-schedule-error" class="d-none"></div>
                     <div class="form-group">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">{{ $websiteLang->where('lang_key','close')->first()->custom_lang }}</button>
-                        <input type="submit" value="{{ $websiteLang->where('lang_key','submit')->first()->custom_lang }}" class="btn btn-primary" id="modal-sub" disabled>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','close')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','close')->first()->custom_lang) }}
+                            @endif</button>
+                        <input type="submit" value="@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','submit')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','submit')->first()->custom_lang) }}
+                            @endif" class="btn btn-primary" id="modal-sub" disabled>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // Modal -->
+<!-- Modal -->
+<div class="modal fade" id="employment_application_modal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','fill_form')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','fill_form')->first()->custom_lang) }}
+                            @endif</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @php
+                $modalDepartments=App\Department::where('status',1)->get();
+            @endphp
+            <div class="modal-body book-appointment">
+                <form action="{{ url('create-employment-application') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group">
+                        <label for="name">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','name')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','name')->first()->custom_lang) }}
+                            @endif</label>
+                        <input type="text" id="name" name="name"  class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','phone')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','phone')->first()->custom_lang) }}
+                            @endif</label>
+                        <input type="number" id="phone" name="phone"  class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="job_title">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','job_title')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','job_title')->first()->custom_lang) }}
+                            @endif</label>
+                        <input type="text" id="job_title" name="job_title"  class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="certificate_file">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','certificate_file')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','certificate_file')->first()->custom_lang) }}
+                            @endif</label>
+                        <input type="file" id="certificate_file" name="certificate_file"  class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','close')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','close')->first()->custom_lang) }}
+                            @endif</button>
+                        <input type="submit" value="@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','submit')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','submit')->first()->custom_lang) }}
+                            @endif" class="btn btn-primary" id="modal-sub">
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // Modal -->
+<!-- Modal -->
+<div class="modal fade" id="employment_application_modal1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{ $websiteLang->where('lang_key','fill_form')->first()->custom_lang }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @php
+                $modalDepartments=App\Department::where('status',1)->get();
+            @endphp
+            <div class="modal-body book-appointment">
+                <form action="{{ url('create-employment-application') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group">
+                        <label for="name">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','name')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','name')->first()->custom_lang) }}
+                            @endif</label>
+                        <input type="text" id="name" name="name"  class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','phone')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','phone')->first()->custom_lang) }}
+                            @endif</label>
+                        <input type="number" id="phone" name="phone"  class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="job_title">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','job_title')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','job_title')->first()->custom_lang) }}
+                            @endif</label>
+                        <input type="text" id="job_title" name="job_title"  class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="certificate_file">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','certificate_file')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','certificate_file')->first()->custom_lang) }}
+                            @endif</label>
+                        <input type="file" id="certificate_file" name="certificate_file"  class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','close')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','close')->first()->custom_lang) }}
+                            @endif</button>
+                        <input type="submit" value="@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','submit')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','submit')->first()->custom_lang) }}
+                            @endif" class="btn btn-primary" id="modal-sub">
                     </div>
                 </form>
 
@@ -638,6 +807,6 @@ $setting=App\Setting::first();
 </div>
 <!-- // Modal -->
 
-<a  class="whats-app" href="#" target="_blank">
+<a  class="whats-app" href="https://api.whatsapp.com/send?phone=+96653 911 1336" target="_blank">
     <i class="fa fa-whatsapp my-float"></i>
 </a>

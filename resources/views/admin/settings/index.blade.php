@@ -62,13 +62,13 @@
                             </select>
                         </div>
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="">{{ $websiteLang->where('lang_key','layout')->first()->custom_lang }}</label>
                             <select name="text_direction" id="" class="form-control">
                                 <option {{ $setting->text_direction=='LTR' ? 'selected':'' }} value="LTR">{{ $websiteLang->where('lang_key','ltr')->first()->custom_lang }}</option>
                                 <option {{ $setting->text_direction=='RTL' ? 'selected':'' }} value="RTL">{{ $websiteLang->where('lang_key','rtl')->first()->custom_lang }}</option>
                             </select>
-                        </div>
+                        </div> -->
 
                         <div class="form-group">
                             <label for="">{{ $websiteLang->where('lang_key','currency_name')->first()->custom_lang }}</label>

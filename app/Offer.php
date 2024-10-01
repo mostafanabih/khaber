@@ -8,7 +8,7 @@ class Offer extends Model
 {
     protected $table = 'offers';
     protected $fillable=[
-        'name','image','status'
+        'name','image','status','main','department_id'
     ];
 
     

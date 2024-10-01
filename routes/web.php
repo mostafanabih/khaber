@@ -36,6 +36,7 @@ use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\DoctorController;
 use App\Http\Controllers\Admin\OfferController;
+use App\Http\Controllers\Admin\EmploymentApplicationController;
 use App\Http\Controllers\Admin\ConditionPrivacyController;
 use App\Http\Controllers\Admin\ContactUsController;
 use App\Http\Controllers\Admin\ContactInformationController;
@@ -92,7 +93,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/',[HomeController::class,'index'])->name('home');
 Route::get('/about-us',[HomeController::class,'aboutUs']);
-Route::get('/offers',[HomeController::class,'offers']);
+Route::get('/offers',[HomeController::class,'offers'])->name('offers');
 Route::get('/faq',[HomeController::class,'Faq']);
 Route::get('/blog',[HomeController::class,'blog']);
 Route::get('/blog-details/{slug}',[HomeController::class,'blogDetails']);
@@ -112,12 +113,16 @@ Route::get('/terms-condition',[HomeController::class,'termsCondition']);
 Route::get('/privacy-policy',[HomeController::class,'privacyPolicy']);
 Route::post('contact-message',[ContactController::class,'message']);
 Route::get('custom-page/{slug}',[HomeController::class,'customePage']);
+
+// ajax update-language
+Route::post('update-language',[HomeController::class,'updateLanguage']);
 // ajax request for appointment
 Route::get('get-appointment/',[AppointmentController::class,'getAppointment']);
 Route::get('get-department-doctor/{id}',[AppointmentController::class,'getDepartmentDoctor']);
 //appointment add to cart
 Route::post('create-appointment',[AppointmentController::class,'createAppointment']);
 Route::post('create-appointment-offer',[AppointmentController::class,'createAppointmentWithOffer'])->name('createAppointmentWithOffer');
+Route::post('create-employment-application',[AppointmentController::class,'createEmploymentApplication'])->name('create-employment-application');
 Route::get('remove-appointment/{id}',[AppointmentController::class,'removeAppointment']);
 // Subscribe us
 Route::post('subscribe-us',[HomeController::class,'subscribeUs']);
@@ -288,8 +293,10 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin'],function (){
     // manage Doctor
     Route::resource('doctor', DoctorController::class);
     Route::resource('offers', OfferController::class);
+    Route::resource('employment-application', EmploymentApplicationController::class);
     Route::get('doctor-status/{id}',[DoctorController::class,'changeStatus'])->name('doctor.status');
     Route::get('offer-status/{id}',[OfferController::class,'changeStatus'])->name('offers.status');
+    Route::get('offer-main/{id}',[OfferController::class,'changeMain'])->name('offers.main');
 
     // Terms-condition and privacy-policy
     Route::resource('terms-privacy', ConditionPrivacyController::class);

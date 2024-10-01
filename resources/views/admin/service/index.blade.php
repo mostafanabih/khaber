@@ -31,9 +31,9 @@
                             <td>{{ $item->header }}</td>
                             <td>{{ $item->slug }}</td>
                             <td>
-                                <a href="{{ route('admin.service.images',$item->id) }}">{{ $websiteLang->where('lang_key','manage_img')->first()->custom_lang }}</a>
-                                <a href="{{ route('admin.service-video.index') }}">{{ $websiteLang->where('lang_key','manage_video')->first()->custom_lang }}</a>
-                                <a href="{{ route('admin.faq.by.service',$item->id) }}">{{ $websiteLang->where('lang_key','manage_faq')->first()->custom_lang }}</a>
+                                <a class="btn btn-primary m-1" href="{{ route('admin.service.images',$item->id) }}">{{ $websiteLang->where('lang_key','manage_img')->first()->custom_lang }}</a>
+                                <a class="btn btn-success m-1" href="{{ route('admin.service-video.index') }}">{{ $websiteLang->where('lang_key','manage_video')->first()->custom_lang }}</a>
+                                <a class="btn btn-info m-1" href="{{ route('admin.faq.by.service',$item->id) }}">{{ $websiteLang->where('lang_key','manage_faq')->first()->custom_lang }}</a>
                             </td>
 
                             <td>

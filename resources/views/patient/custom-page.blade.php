@@ -6,6 +6,10 @@
 <meta name="description" content="{{ $page->seo_description }}">
 @endsection
 @section('patient-content')
+@php
+$translator = new Stichoza\GoogleTranslate\GoogleTranslate('ar');
+@endphp
+
 
 <!--Banner Start-->
 <div class="banner-area flex" style="background-image:url({{ $banner->custom_page ? url($banner->custom_page) : '' }});">
@@ -13,10 +17,16 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="banner-text">
-                    <h1>{{ $page->page_name }}</h1>
+                    <h1>@if($setting->text_direction=='RTL'){{ $page->page_name}}@else
+                            {{ $translator->setTarget('en')->translate($page->page_name) }}
+                            @endif</h1>
                     <ul>
-                        <li><a href="{{ url('/') }}">{{ $navigation->home }}</a></li>
-                        <li><span>{{ $page->page_name }}</span></li>
+                        <li><a href="{{ url('/') }}">@if($setting->text_direction=='RTL'){{ $navigation->home}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->home) }}
+                            @endif</a></li>
+                        <li><span style="color:#fff !important;">@if($setting->text_direction=='RTL'){{ $page->page_name}}@else
+                            {{ $translator->setTarget('en')->translate($page->page_name) }}
+                            @endif</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +40,9 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                {!! clean($page->description) !!}
+            @if($setting->text_direction=='RTL'){!! clean($page->description) !!}@else
+                            {!! $translator->setTarget('en')->translate(clean($page->description)) !!}
+                            @endif
             </div>
         </div>
     </div>

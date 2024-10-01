@@ -22,7 +22,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="name">{{ $websiteLang->where('lang_key','name')->first()->custom_lang }}</label>
-                                    <input type="text" name="name" class="form-control" id="name" >
+                                    <input type="text" name="name" class="form-control" id="name" value="{{$offer->name}}" >
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -51,6 +51,26 @@
                                     <select name="status" id="status" class="form-control">
                                         <option {{ $offer->status==1 ? 'selected':'' }} value="1">{{ $websiteLang->where('lang_key','active')->first()->custom_lang }}</option>
                                         <option {{ $offer->status==0 ? 'selected':'' }} value="0">{{ $websiteLang->where('lang_key','inactive')->first()->custom_lang }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="main">{{ $websiteLang->where('lang_key','main')->first()->custom_lang }} *</label>
+                                    <select name="main" id="main" class="form-control">
+                                        <option {{ $offer->main==1 ? 'selected':'' }} value="1">{{ $websiteLang->where('lang_key','active')->first()->custom_lang }}</option>
+                                        <option {{ $offer->main==0 ? 'selected':'' }} value="0">{{ $websiteLang->where('lang_key','inactive')->first()->custom_lang }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="main">{{ $websiteLang->where('lang_key','dep')->first()->custom_lang }} *</label>
+                                    <select name="department_id" id="department_id" class="form-control">
+                                        @foreach($departments as $department)
+                                         <option {{ $offer->department_id==$department->id ? 'selected':'' }} value="{{$department->id}}">{{$department->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>

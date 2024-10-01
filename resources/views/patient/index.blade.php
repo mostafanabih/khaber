@@ -7,6 +7,10 @@
 @endsection
 @section('patient-content')
 
+@php
+$translator = new Stichoza\GoogleTranslate\GoogleTranslate('ar');
+@endphp
+
 
 <!--Slider Start-->
 <div class="slider" id="main-slider">
@@ -18,8 +22,12 @@
         <div class="d-flex align-items-center h_100_p">
             <div class="v-mid-content">
                 <div class="heading">
-                    <h2>{{ $sliderContent->slider_heading }}</h2>
-                    <p>{{ $sliderContent->slider_description }}</p>
+                    <h2>@if($setting->text_direction=='RTL'){{ $sliderContent->slider_heading}}@else
+                            {{ $translator->setTarget('en')->translate($sliderContent->slider_heading) }}
+                            @endif</h2>
+                    <p>@if($setting->text_direction=='RTL'){{ $sliderContent->slider_description}}@else
+                            {{ $translator->setTarget('en')->translate($sliderContent->slider_description) }}
+                            @endif</p>
                 </div>
                 <div class="doc-search-section">
                     <form action="{{ url('search-doctor') }}">
@@ -64,21 +72,26 @@
 
 
 
-    <div class="slide-carousel owl-carousel">
-        @foreach ($sliders as $item)
-        <div class="slider-item flex" style="background-image:url({{ url($item->image) }});  background-size: cover;
-  background-position: center;">
-            <div class="bg-slider"></div>
-            <div class="container">
-                <div class="row">
 
-                </div>
+    
+
+
+
+    <div class="slide-carousel owl-carousel">
+    @foreach ($sliders as $item)
+    <div class="slider-item flex">
+        <img src="{{ url($item->image) }}" alt="Slider Image" class="slider-image">
+        <div class="bg-slider"></div>
+        <div class="container">
+            <div class="row">
+                <!-- Your content here -->
             </div>
         </div>
-        @endforeach
-
-
     </div>
+    @endforeach
+</div>
+
+
 </div>
 <!--Slider End-->
 
@@ -101,9 +114,13 @@
                         <i class="{{ $feature->logo }}"></i>
                     </div>
                     <div class="choose-text">
-                        <h4>{{ $feature->title }}</h4>
+                        <h4>@if($setting->text_direction=='RTL'){{ $feature->title}}@else
+                            {{ $translator->setTarget('en')->translate($feature->title) }}
+                            @endif</h4>
                         <p>
-                           {{ $feature->description }}
+                        @if($setting->text_direction=='RTL'){{ $feature->description}}@else
+                            {{ $translator->setTarget('en')->translate($feature->description) }}
+                            @endif
                         </p>
                     </div>
                 </div>
@@ -139,8 +156,14 @@
 <div class="row ov_hd">
     <div class="col-md-12 wow fadeInDown">
                 <div class="main-headline">
-                    <h1><span>{{ ucfirst($work_section->first_header) }}</span> {{ ucfirst($work_section->second_header) }}</h1>
-                    <p>{{ $work_section->description }}</p>
+                    <h1><span>@if($setting->text_direction=='RTL'){{ ucfirst($work_section->first_header)}}@else
+                            {{ $translator->setTarget('en')->translate(ucfirst($work_section->first_header)) }}
+                            @endif</span> @if($setting->text_direction=='RTL'){{ ucfirst($work_section->second_header)}}@else
+                            {{ $translator->setTarget('en')->translate(ucfirst($work_section->second_header)) }}
+                            @endif</h1>
+                    <p>@if($setting->text_direction=='RTL'){{ $work_section->description}}@else
+                            {{ $translator->setTarget('en')->translate($work_section->description) }}
+                            @endif</p>
                 </div>
             </div>
 
@@ -259,31 +282,55 @@ $service_section=$homesections->where('section_type',3)->first();
         <div class="row">
             <div class="col-md-12">
                 <div class="main-headline">
-                    <h1><span>{{ ucfirst($service_section->first_header) }}</span> {{ ucfirst($service_section->second_header) }}</h1>
-                    <p>{{ $service_section->description }}</p>
+                    <h1><span>@if($setting->text_direction=='RTL'){{ ucfirst($service_section->first_header)}}@else
+                            {{ $translator->setTarget('en')->translate(ucfirst($service_section->first_header)) }}
+                            @endif</span> @if($setting->text_direction=='RTL'){{ ucfirst($service_section->second_header)}}@else
+                            {{ $translator->setTarget('en')->translate(ucfirst($service_section->second_header)) }}
+                            @endif</h1>
+                    <p>@if($setting->text_direction=='RTL'){{$service_section->description}}@else
+                            {{ $translator->setTarget('en')->translate($service_section->description) }}
+                            @endif</p>
                 </div>
             </div>
         </div>
         <div class="row service-row">
             <div class="col-md-12">
                 <div class="service-coloum-area">
+                @php
+                $translator = new Stichoza\GoogleTranslate\GoogleTranslate('ar');
+                @endphp
+
                     @foreach ($services->take($service_section->content_quantity) as $service)
+
                     <div class="service-coloum">
                         <div class="service-item">
                             <i class="{{ $service->icon }}"></i>
-                            <h3>{{ $service->header }}</h3>
-                            <p>{{ $service->sort_description }}</p>
-                            <a href="{{ url('service-details/'.$service->slug) }}">{{ $websiteLang->where('lang_key','service_details')->first()->custom_lang }} →</a>
+                            <h3>@if($setting->text_direction=='RTL'){{ $service->header}}@else
+                            {{ $translator->setTarget('en')->translate($service->header) }}
+                            @endif</h3>
+                            <p>@if($setting->text_direction=='RTL'){{ $service->sort_description}}@else
+                            {{ $translator->setTarget('en')->translate($service->sort_description) }}
+                            @endif</p>
+                            <a href="{{ url('service-details/'.$service->slug) }}">@if($setting->text_direction=='RTL')
+                            {{ $websiteLang->where('lang_key','service_details')->first()->custom_lang }}
+                            @else
+                            {{ $websiteLang->where('lang_key','service_details')->first()->default_lang }}
+                            @endif →</a>
                         </div>
                     </div>
                     @endforeach
                 </div>
             </div>
         </div>
+        
         <div class="row">
             <div class="col-md-12">
                 <div class="home-button ser-btn">
-                    <a href="{{ url('service') }}">{{ $websiteLang->where('lang_key','all_service')->first()->custom_lang }}</a>
+                    <a href="{{ url('service') }}">@if($setting->text_direction=='RTL')
+        {{ $websiteLang->where('lang_key','all_service')->first()->custom_lang }}
+    @else
+        {{ $websiteLang->where('lang_key','all_service')->first()->default_lang }}
+    @endif</a>
                 </div>
             </div>
         </div>
@@ -295,8 +342,11 @@ $service_section=$homesections->where('section_type',3)->first();
                     <div class="counter-icon">
                         <i class="{{ $overview->icon }}"></i>
                     </div>
-                    <h2 class="counter">{{ $overview->qty }}</h2>
-                    <h4>{{ $overview->name }}</h4>
+                    <div style="display: flex;align-items: center;justify-content: center;gap: 5px;">
+                    <span style="color: #fff;font-size: large;font-weight: 800;">+</span><h2 class="counter">{{ $overview->qty }}</h2></div>
+                    <h4>@if($setting->text_direction=='RTL'){{ $overview->name}}@else
+                            {{ $translator->setTarget('en')->translate($overview->name) }}
+                            @endif</h4>
                 </div>
             </div>
             @endforeach
@@ -319,8 +369,14 @@ $department_section=$homesections->where('section_type',4)->first();
         <div class="row mb_25">
             <div class="col-md-12 wow fadeInDown" data-wow-delay="0.1s">
                 <div class="main-headline">
-                    <h1><span>{{ ucfirst($department_section->first_header) }}</span> {{ ucfirst($department_section->second_header) }}</h1>
-                    <p>{{ $department_section->description }}</p>
+                    <h1><span>@if($setting->text_direction=='RTL'){{ ucfirst($department_section->first_header)}}@else
+                            {{ $translator->setTarget('en')->translate(ucfirst($department_section->first_header)) }}
+                            @endif</span> @if($setting->text_direction=='RTL'){{ ucfirst($department_section->second_header)}}@else
+                            {{ $translator->setTarget('en')->translate(ucfirst($department_section->second_header)) }}
+                            @endif</h1>
+                    <p>@if($setting->text_direction=='RTL'){{ $department_section->description}}@else
+                            {{ $translator->setTarget('en')->translate($department_section->description) }}
+                            @endif</p>
                 </div>
             </div>
         </div>
@@ -335,7 +391,9 @@ $department_section=$homesections->where('section_type',4)->first();
                                     </div>
                                 </div>
                                 <div class="case-content">
-                                    <h4><a href="{{ url('department-details/'.$department->slug) }}">{{ $department->name }}</a></h4>
+                                    <h4><a href="{{ url('department-details/'.$department->slug) }}">@if($setting->text_direction=='RTL'){{ $department->name}}@else
+                            {{ $translator->setTarget('en')->translate($department->name) }}
+                            @endif</a></h4>
                                 </div>
                             </div>
                         </div>
@@ -345,7 +403,9 @@ $department_section=$homesections->where('section_type',4)->first();
         <div class="row mb_60">
             <div class="col-md-12">
                 <div class="home-button">
-                    <a href="{{ url('department') }}">{{ $websiteLang->where('lang_key','all_dep')->first()->custom_lang }}</a>
+                    <a href="{{ url('department') }}">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','all_dep')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','all_dep')->first()->custom_lang) }}
+                            @endif</a>
                 </div>
             </div>
         </div>
@@ -365,8 +425,14 @@ $patient_section=$homesections->where('section_type',5)->first();
         <div class="row">
             <div class="col-md-12">
                 <div class="main-headline">
-                    <h1><span>{{ ucfirst($patient_section->first_header) }}</span> {{ ucfirst($patient_section->second_header) }}</h1>
-                    <p>{{ $patient_section->description }}</p>
+                    <h1><span>@if($setting->text_direction=='RTL'){{ ucfirst($patient_section->first_header)}}@else
+                            {{ $translator->setTarget('en')->translate(ucfirst($patient_section->first_header)) }}
+                            @endif</span>@if($setting->text_direction=='RTL'){{ ucfirst($patient_section->second_header)}}@else
+                            {{ $translator->setTarget('en')->translate(ucfirst($patient_section->second_header)) }}
+                            @endif </h1>
+                    <p>@if($setting->text_direction=='RTL'){{ $patient_section->description}}@else
+                            {{ $translator->setTarget('en')->translate($patient_section->description) }}
+                            @endif</p>
                 </div>
             </div>
         </div>
@@ -377,12 +443,18 @@ $patient_section=$homesections->where('section_type',5)->first();
                         @foreach ($testimonials->take($patient_section->content_quantity) as $patient)
                         <div class="testimonial-item wow fadeIn" data-wow-delay="0.2s">
                             <p class="wow fadeInDown" data-wow-delay="0.2s">
-                                {{ $patient->description }}
+                            @if($setting->text_direction=='RTL'){{ $patient->description}}@else
+                            {{ $translator->setTarget('en')->translate($patient->description) }}
+                            @endif
                             </p>
                             <div class="testi-info wow fadeInUp" data-wow-delay="0.2s">
                                 <img src="{{ url($patient->image) }}" alt="">
-                                <h4>{{ $patient->name }}</h4>
-                                <span>{{ $patient->designation }}</span>
+                                <h4>@if($setting->text_direction=='RTL'){{ $patient->name}}@else
+                            {{ $translator->setTarget('en')->translate($patient->name) }}
+                            @endif</h4>
+                                <span>@if($setting->text_direction=='RTL'){{ $patient->designation}}@else
+                            {{ $translator->setTarget('en')->translate($patient->designation) }}
+                            @endif</span>
                             </div>
                         </div>
                         @endforeach
@@ -409,8 +481,14 @@ $doctor_section=$homesections->where('section_type',6)->first();
         <div class="row">
             <div class="col-md-12">
                 <div class="main-headline">
-                    <h1><span>{{ ucfirst($doctor_section->first_header) }}</span> {{ ucfirst($doctor_section->second_header) }}</h1>
-                    <p>{{ $doctor_section->description }}</p>
+                    <h1><span>@if($setting->text_direction=='RTL'){{ ucfirst($doctor_section->first_header)}}@else
+                            {{ $translator->setTarget('en')->translate(ucfirst($doctor_section->first_header)) }}
+                            @endif</span>@if($setting->text_direction=='RTL'){{ ucfirst($doctor_section->second_header)}}@else
+                            {{ $translator->setTarget('en')->translate(ucfirst($doctor_section->second_header)) }}
+                            @endif</h1>
+                    <p>@if($setting->text_direction=='RTL'){{ $doctor_section->description}}@else
+                            {{ $translator->setTarget('en')->translate($doctor_section->description) }}
+                            @endif</p>
                 </div>
             </div>
         </div>
@@ -420,13 +498,19 @@ $doctor_section=$homesections->where('section_type',6)->first();
                     @foreach ($doctors->take($doctor_section->content_quantity) as $doctor)
                     <div class="team-item">
                         <div class="team-photo">
-                            <img src="{{ url($doctor->image) }}" alt="Team Photo">
+                            <img src="{{ url($doctor->image) }}" alt="Team Photo" style="border-radius:0px;">
                         </div>
                         <div class="team-text">
-                            <a href="{{ url('doctor-details/'.$doctor->slug) }}">{{ $doctor->name }}</a>
+                            <a href="{{ url('doctor-details/'.$doctor->slug) }}">@if($setting->text_direction=='RTL'){{ $doctor->name}}@else
+                            {{ $translator->setTarget('en')->translate($doctor->name) }}
+                            @endif</a>
                             <p>{{ $doctor->department->name }}</p>
-                            <p><span><i class="fas fa-graduation-cap"></i> {{ $doctor->designations }}</span></p>
-                            <p><span><b><i class="fas fa-street-view"></i> {{ ucfirst($doctor->location->location) }}</b></span></p>
+                            <p><span><i class="fas fa-graduation-cap"></i> @if($setting->text_direction=='RTL'){{ $doctor->designations}}@else
+                            {{ $translator->setTarget('en')->translate($doctor->designations) }}
+                            @endif</span></p>
+                            <p><span><b><i class="fas fa-street-view"></i> @if($setting->text_direction=='RTL'){{ ucfirst($doctor->location->location)}}@else
+                            {{ $translator->setTarget('en')->translate(ucfirst($doctor->location->location)) }}
+                            @endif</b></span></p>
                         </div>
                         <div class="team-social">
                             <ul>
@@ -465,8 +549,14 @@ $blog_section=$homesections->where('section_type',7)->first();
         <div class="row">
             <div class="col-md-12">
                 <div class="main-headline">
-                    <h1><span>{{ ucfirst($blog_section->first_header) }}</span> {{ ucfirst($blog_section->second_header) }}</h1>
-                    <p>{{ $blog_section->description }}</p>
+                    <h1><span>@if($setting->text_direction=='RTL'){{ ucfirst($blog_section->first_header)}}@else
+                            {{ $translator->setTarget('en')->translate(ucfirst($blog_section->first_header)) }}
+                            @endif</span> @if($setting->text_direction=='RTL'){{ ucfirst($blog_section->second_header)}}@else
+                            {{ $translator->setTarget('en')->translate(ucfirst($blog_section->second_header)) }}
+                            @endif</h1>
+                    <p>@if($setting->text_direction=='RTL'){{ $blog_section->description}}@else
+                            {{ $translator->setTarget('en')->translate($blog_section->description) }}
+                            @endif</p>
                 </div>
             </div>
         </div>
@@ -480,14 +570,22 @@ $blog_section=$homesections->where('section_type',7)->first();
                     </a>
                     <div class="blog-text">
                         <div class="blog-author">
-                            <span><i class="fas fa-user"></i> {{ $websiteLang->where('lang_key','admin')->first()->custom_lang }}</span>
+                            <span><i class="fas fa-user"></i> @if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','admin')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','admin')->first()->custom_lang) }}
+                            @endif</span>
                             <span><i class="far fa-calendar-alt"></i> {{ $feature_blog->created_at->format('m-d-Y') }}</span>
                         </div>
-                        <h3><a href="{{ url('blog-details/'.$feature_blog->slug) }}">{{ $feature_blog->title }}</a></h3>
+                        <h3><a href="{{ url('blog-details/'.$feature_blog->slug) }}">@if($setting->text_direction=='RTL'){{ $feature_blog->title}}@else
+                            {{ $translator->setTarget('en')->translate($feature_blog->title) }}
+                            @endif</a></h3>
                         <p>
-                            {{ $feature_blog->sort_description }}
+                        @if($setting->text_direction=='RTL'){{ $feature_blog->sort_description}}@else
+                            {{ $translator->setTarget('en')->translate($feature_blog->sort_description) }}
+                            @endif
                         </p>
-                        <a class="sm_btn" href="{{ url('blog-details/'.$feature_blog->slug) }}">{{ $websiteLang->where('lang_key','details')->first()->custom_lang }} →</a>
+                        <a class="sm_btn" href="{{ url('blog-details/'.$feature_blog->slug) }}">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','details')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','details')->first()->custom_lang) }}
+                            @endif →</a>
                     </div>
                 </div>
             </div>
@@ -507,14 +605,22 @@ $blog_section=$homesections->where('section_type',7)->first();
                             </a>
                             <div class="blog-text">
                                 <div class="blog-author">
-                                    <span><i class="fas fa-user"></i> {{ $websiteLang->where('lang_key','admin')->first()->custom_lang }}</span>
+                                    <span><i class="fas fa-user"></i> @if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','admin')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','admin')->first()->custom_lang) }}
+                            @endif</span>
                                     <span><i class="far fa-calendar-alt"></i> {{ $blog->created_at->format('m-d-Y') }}</span>
                                 </div>
-                                <h3><a href="{{ url('blog-details/'.$blog->slug) }}">{{ $blog->title }}</a></h3>
+                                <h3><a href="{{ url('blog-details/'.$blog->slug) }}">@if($setting->text_direction=='RTL'){{ $blog->title}}@else
+                            {{ $translator->setTarget('en')->translate($blog->title) }}
+                            @endif</a></h3>
                                 <p>
-                                    {{ $blog->sort_description }}
+                                @if($setting->text_direction=='RTL'){{ $blog->sort_description}}@else
+                            {{ $translator->setTarget('en')->translate($blog->sort_description) }}
+                            @endif
                                 </p>
-                                <a class="sm_btn" href="{{ url('blog-details/'.$blog->slug) }}">{{ $websiteLang->where('lang_key','details')->first()->custom_lang }} →</a>
+                                <a class="sm_btn" href="{{ url('blog-details/'.$blog->slug) }}">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','details')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','details')->first()->custom_lang) }}
+                            @endif →</a>
                             </div>
                         </div>
                     @endforeach
@@ -528,4 +634,22 @@ $blog_section=$homesections->where('section_type',7)->first();
 <!--Blog-Area End-->
 @endif
 @endif
+
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog offer-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body offer-body">
+                <img src="{{url($offer->image)}}" class="img-fluid offer-image" alt="Offer Image">
+            </div>
+            <div class="modal-footer">
+                <a href="{{route('offers')}}" type="button" class="btn" style="background-color: #002945; width: 50%; margin: auto; padding: 10px; color: #fff; font-size: medium;">@if($setting->text_direction=='RTL')"كل العروض"@else
+                            {{ $translator->setTarget('en')->translate("كل العروض") }}
+                            @endif </a>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="margin-left: 1px;"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @endsection

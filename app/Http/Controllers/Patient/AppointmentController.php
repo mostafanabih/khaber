@@ -9,11 +9,15 @@ use App\Day;
 use App\Schedule;
 use App\Doctor;
 use App\Department;
+use App\EmploymentApplication;
 use App\Leave;
 use App\ManageText;
 use App\NotificationText;
 use Auth;
 use Cart;
+use App\ValidationText;
+use Image;
+
 class AppointmentController extends Controller
 {
 
@@ -171,6 +175,59 @@ class AppointmentController extends Controller
 
         return redirect()->back()->with($notification);
     }
+
+
+    public function createEmploymentApplication(Request $request)
+{
+    $data = $request->all();
+
+    $valid_lang = ValidationText::all();
+    $rules = [
+        'name' => 'required',
+        'phone' => 'required',
+        'job_title' => 'required',
+        'certificate_file' => 'required|mimes:pdf',
+    ];
+
+    $customMessages = [
+        'name.required' => $valid_lang->where('lang_key', 'name')->first()->custom_lang,
+        'phone.required' => $valid_lang->where('lang_key', 'phone')->first()->custom_lang,
+        'job_title.required' => $valid_lang->where('lang_key', 'job_title')->first()->custom_lang,
+        'certificate_file.required' => $valid_lang->where('lang_key', 'certificate_file')->first()->custom_lang,
+        'certificate_file.mimes' => $valid_lang->where('lang_key', 'certificate_file')->first()->custom_lang . ' (pdf)',
+
+    ];
+
+    $this->validate($request, $rules, $customMessages);
+
+    $image = $request->certificate_file;
+    $extention = $image->getClientOriginalExtension();
+    $name = 'employment_application-' . date('Y-m-d-h-i-s-') . rand(999, 9999) . '.' . $extention;
+    $image_path = 'uploads/custom-images/' . $name;
+
+    if ($extention == 'pdf') {
+        $image->move(public_path('uploads/custom-images'), $name);
+    } else {
+        Image::make($image)
+            ->resize(500, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })
+            ->save(public_path($image_path));
+    }
+
+    $doctor = EmploymentApplication::create([
+        'name' => $request->name,
+        'phone' => $request->phone,
+        'job_title' => $request->job_title,
+        'certificate_file' => $image_path,
+    ]);
+
+    $notify_lang = NotificationText::all();
+    $notification = $notify_lang->where('lang_key', 'employment')->first()->custom_lang;
+    $notification = array('messege' => $notification, 'alert-type' => 'success');
+
+    return redirect()->back()->with($notification);
+}
 
 
 }

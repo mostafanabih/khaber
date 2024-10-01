@@ -14,7 +14,7 @@
                     <h1>{{ $navigation->payment }}</h1>
                     <ul>
                         <li><a href="{{ url('/') }}">{{ $navigation->home }}</a></li>
-                        <li><span>{{ $navigation->payment }}</span></li>
+                        <li><span style="color:#fff !important;">{{ $navigation->payment }}</span></li>
                     </ul>
                 </div>
             </div>
@@ -118,7 +118,7 @@
 
                         @if ($paymongo->status)
                             <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="paymongo-tab" data-toggle="tab" href="#paymongo" role="tab" aria-controls="paypal" aria-selected="false">{{ $websiteLang->where('lang_key','paymongo')->first()->custom_lang }}</a>
+                            <a class="nav-link" id="paymongo-tab" data-toggle="tab" href="#paymongo" role="tab" aria-controls="paypal" aria-selected="false">الدفع عبر مدي /visa</a>
                             </li>
                         @endif
 
@@ -276,9 +276,9 @@
                                 <div class="payment-order-button">
                                     <a href="javascript:;" data-toggle="modal" data-target="#paymongo_modal">{{ $websiteLang->where('lang_key','card_payment')->first()->custom_lang }}</a>
 
-                                    <a href="{{ route('patient.pay-with-grab-pay') }}">{{ $websiteLang->where('lang_key','grab_pay')->first()->custom_lang }}</a>
+                                    <!--<a href="{{ route('patient.pay-with-grab-pay') }}">{{ $websiteLang->where('lang_key','grab_pay')->first()->custom_lang }}</a>-->
 
-                                    <a href="{{ route('patient.pay-with-gcash') }}">{{ $websiteLang->where('lang_key','gcash')->first()->custom_lang }}</a>
+                                    <!--<a href="{{ route('patient.pay-with-gcash') }}">{{ $websiteLang->where('lang_key','gcash')->first()->custom_lang }}</a>-->
                                 </div>
                             </div>
                         </div>
@@ -339,7 +339,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{ $websiteLang->where('lang_key','create_app')->first()->custom_lang }}</h5>
+                <h5 class="modal-title" id="exampleModalLabel">سيتم توجيهك الي بوابه الدفع</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -347,37 +347,9 @@
             <div class="modal-body book-appointment">
                 <form role="form" action="{{ route('patient.pay-with-paymongo') }}" method="post" >
                 @csrf
-                    <div>
-                        <div class='form-row row'>
-                            <div class='col-sm-6 col-12 form-group'>
-                                <label class='control-label'>{{ $websiteLang->where('lang_key','card_num')->first()->custom_lang }}</label> <input
-                                    autocomplete='off' class='form-control' size='20'
-                                    type='text' name="card_number" required>
-                            </div>
-
-                            <div class='col-sm-6 col-12 form-group cvc'>
-                                <label class='control-label'>{{ $websiteLang->where('lang_key','cvc')->first()->custom_lang }}</label> <input autocomplete='off'
-                                    class='form-control' size='4'
-                                    type='text' required name="cvc">
-                            </div>
-
-                            <div class='col-sm-6 col-12 form-group expiration'>
-                                <label class='control-label'>{{ $websiteLang->where('lang_key','exp_month')->first()->custom_lang }}</label> <input
-                                    class='form-control' size='2'
-                                    type='text' required name="month">
-                            </div>
-
-                            <div class='col-sm-6 col-12 form-group expiration'>
-                                <label class='control-label'>{{ $websiteLang->where('lang_key','exp_year')->first()->custom_lang }}</label> <input
-                                    class='form-control'  size='4'
-                                    type='text' required name="year">
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="row">
-                        <div class="payment-order-button ml-3">
-                            <button type="submit">{{ $websiteLang->where('lang_key','payment')->first()->custom_lang }}</button>
+                        <div class="payment-order-button m-auto">
+                            <button type="submit">ادفع الأن</button>
                         </div>
                     </div>
 

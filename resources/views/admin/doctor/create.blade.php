@@ -93,13 +93,13 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="twitter">{{ $websiteLang->where('lang_key','twitter')->first()->custom_lang }}</label>
+                                    <label for="twitter">{{ $websiteLang->where('lang_key','snapchat')->first()->custom_lang }}</label>
                                     <input type="text" class="form-control" name="twitter" id="twitter"  value="{{ old('twitter') }}">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="linkedin">{{ $websiteLang->where('lang_key','linkedin')->first()->custom_lang }}</label>
+                                    <label for="linkedin">{{ $websiteLang->where('lang_key','tiktok')->first()->custom_lang }}</label>
                                     <input type="text" class="form-control" name="linkedin" id="linkedin">
                                 </div>
                             </div>

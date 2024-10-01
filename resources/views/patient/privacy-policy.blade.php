@@ -1,5 +1,9 @@
 @extends('layouts.patient.layout')
 @section('patient-content')
+@php
+$translator = new Stichoza\GoogleTranslate\GoogleTranslate('ar');
+@endphp
+
 
 <!--Banner Start-->
 <div class="banner-area flex" style="background-image:url({{ $banner->privacy_and_policy ? url($banner->privacy_and_policy) : '' }});">
@@ -7,10 +11,16 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="banner-text">
-                    <h1>{{ $navigation->privacy_policy }}</h1>
+                    <h1>@if($setting->text_direction=='RTL'){{ $navigation->privacy_policy}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->privacy_policy) }}
+                            @endif</h1>
                     <ul>
-                        <li><a href="{{ url('/') }}">{{ $navigation->home }}</a></li>
-                        <li><span>{{ $navigation->privacy_policy }}</span></li>
+                        <li><a href="{{ url('/') }}">@if($setting->text_direction=='RTL'){{ $navigation->home}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->home) }}
+                            @endif{{ $navigation->home }}</a></li>
+                        <li><span style="color:#fff !important;">@if($setting->text_direction=='RTL'){{ $navigation->privacy_policy}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->privacy_policy) }}
+                            @endif</span></li>
                     </ul>
                 </div>
             </div>
@@ -25,7 +35,9 @@
         <div class="row">
             <div class="col-lg-12">
                 @if ($privacy_count != 0)
-                {!! clean($condition->privacy_policy) !!}
+                @if($setting->text_direction=='RTL'){!! clean($condition->privacy_policy)!!}@else
+                            {!! $translator->setTarget('en')->translate(clean($condition->privacy_policy)) !!}
+                            @endif
                 @endif
 
             </div>

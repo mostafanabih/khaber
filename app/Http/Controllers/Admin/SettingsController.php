@@ -77,6 +77,7 @@ class SettingsController extends Controller
 
     public function index()
     {
+        
         $setting=Setting::first();
         if($setting){
             $websiteLang=ManageText::all();

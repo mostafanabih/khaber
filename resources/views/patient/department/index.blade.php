@@ -6,6 +6,9 @@
 <meta name="description" content="{{ $title_meta->department_meta_description }}">
 @endsection
 @section('patient-content')
+@php
+$translator = new Stichoza\GoogleTranslate\GoogleTranslate('ar');
+@endphp
 
 <!--Banner Start-->
 <div class="banner-area flex" style="background-image:url({{ $banner->department ? url($banner->department) : '' }});">
@@ -13,10 +16,16 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="banner-text">
-                    <h1>{{ $navigation->department }}</h1>
+                    <h1>@if($setting->text_direction=='RTL'){{ $navigation->department}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->department) }}
+                            @endif</h1>
                     <ul>
-                        <li><a href="{{ url('/') }}">{{ $navigation->home }}</a></li>
-                        <li><span>{{ $navigation->department }}</span></li>
+                        <li><a href="{{ url('/') }}">@if($setting->text_direction=='RTL'){{ $navigation->home}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->home) }}
+                            @endif</a></li>
+                        <li><span style="color:#fff !important;">@if($setting->text_direction=='RTL'){{ $navigation->department}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->department) }}
+                            @endif</span></li>
                     </ul>
                 </div>
             </div>
@@ -34,11 +43,15 @@
                     <div class="case-box">
                         <div class="case-image">
                             <img src="{{ $department->thumbnail_image }}" alt="">
-                            <div class="overlay"><a href="{{ url('department-details/'.$department->slug) }}" class="btn-case">{{ $websiteLang->where('lang_key','see_details')->first()->custom_lang }}</a>
+                            <div class="overlay"><a href="{{ url('department-details/'.$department->slug) }}" class="btn-case">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','see_details')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','see_details')->first()->custom_lang) }}
+                            @endif</a>
                             </div>
                         </div>
                         <div class="case-content">
-                            <h4><a href="{{ url('department-details/'.$department->slug) }}">{{ $department->name }}</a></h4>
+                            <h4><a href="{{ url('department-details/'.$department->slug) }}">@if($setting->text_direction=='RTL'){{ $department->name}}@else
+                            {{ $translator->setTarget('en')->translate($department->name) }}
+                            @endif</a></h4>
                         </div>
                     </div>
                 </div>

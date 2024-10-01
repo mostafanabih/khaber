@@ -62,21 +62,57 @@
 
                         <a class="collapse-item {{ Route::is('admin.all.appointment') || Route::is('admin.appointment.show') ?'active':'' }}" href="{{ route('admin.all.appointment') }}">{{ $websiteLang->where('lang_key','all_app')->first()->custom_lang }}</a>
 
-                        <a class="collapse-item {{ Route::is('admin.prescribe') || Route::is('admin.prescribe.show')?'active':'' }}" href="{{ route('admin.prescribe') }}">{{ $websiteLang->where('lang_key','prescription')->first()->custom_lang }}</a>
+                        <!-- <a class="collapse-item {{ Route::is('admin.prescribe') || Route::is('admin.prescribe.show')?'active':'' }}" href="{{ route('admin.prescribe') }}">{{ $websiteLang->where('lang_key','prescription')->first()->custom_lang }}</a> -->
 
                         <a class="collapse-item {{ Route::is('admin.patients') || Route::is('admin.patient.show')?'active':'' }}" href="{{ route('admin.patients') }}">{{ $websiteLang->where('lang_key','patient')->first()->custom_lang }}</a>
 
                         <a class="collapse-item {{ Route::is('admin.payment')?'active':'' }}" href="{{ route('admin.payment') }}">{{ $websiteLang->where('lang_key','payment')->first()->custom_lang }}</a>
 
-                        <a class="collapse-item {{ Route::is('admin.schedule.*')?'active':'' }}" href="{{ route('admin.schedule.index') }}">{{ $websiteLang->where('lang_key','schedule')->first()->custom_lang }}</a>
+                         <a class="collapse-item {{ Route::is('admin.schedule.*')?'active':'' }}" href="{{ route('admin.schedule.index') }}">{{ $websiteLang->where('lang_key','schedule')->first()->custom_lang }}</a> 
 
                         <a class="collapse-item {{ Route::is('admin.day.*')?'active':'' }}" href="{{ route('admin.day.index') }}">{{ $websiteLang->where('lang_key','day')->first()->custom_lang }}</a>
 
-                        <a class="collapse-item {{ Route::is('admin.habit.index')?'active':'' }}" href="{{ route('admin.habit.index') }}">{{ $websiteLang->where('lang_key','habit')->first()->custom_lang }}</a>
+                        <!-- <a class="collapse-item {{ Route::is('admin.habit.index')?'active':'' }}" href="{{ route('admin.habit.index') }}">{{ $websiteLang->where('lang_key','habit')->first()->custom_lang }}</a> -->
 
                         <a class="collapse-item {{ Route::is('admin.meeting-history')?'active':'' }}" href="{{ route('admin.meeting-history') }}">{{ $websiteLang->where('lang_key','zoom_meeting')->first()->custom_lang }}</a>
 
 
+                    </div>
+                </div>
+            </li>
+
+             <!-- Nav Item - Pages Collapse Menu -->
+             <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>{{ $websiteLang->where('lang_key','setup_page')->first()->custom_lang }}</span>
+                </a>
+                <div id="collapsePages" class="collapse {{
+                Route::is('admin.service.*') ||
+                Route::is('admin.faq-category.index') ||
+                Route::is('admin.testimonial.index') ||
+                Route::is('admin.about.index') ||
+                Route::is('admin.custom-page.index') ||
+                Route::is('admin.terms-privacy.index') ||
+                Route::is('admin.service-video.*') ||
+                Route::is('admin.faq.by.service')||
+                Route::is('admin.custom-page.*') ||
+                Route::is('admin.faq.category')
+                 ? 'show':'' }}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+
+
+                        <a class="collapse-item {{ Route::is('admin.service.*') || Route::is('admin.service-video.*') || Route::is('admin.faq.by.service')?'active':'' }}" href="{{ route('admin.service.index') }}">{{ $websiteLang->where('lang_key','service')->first()->custom_lang }}</a>
+
+                        <a class="collapse-item {{ Route::is('admin.faq-category.index') || Route::is('admin.faq.category')?'active':'' }}" href="{{ route('admin.faq-category.index') }}">{{ $websiteLang->where('lang_key','faq')->first()->custom_lang }}</a>
+
+                        <a class="collapse-item {{ Route::is('admin.testimonial.index')?'active':'' }}" href="{{ route('admin.testimonial.index') }}">{{ $websiteLang->where('lang_key','testi')->first()->custom_lang }}</a>
+                        <a class="collapse-item {{ Route::is('admin.about.index')?'active':'' }}" href="{{ route('admin.about.index') }}">{{ $websiteLang->where('lang_key','about')->first()->custom_lang }}</a>
+
+                        <a class="collapse-item {{ Route::is('admin.custom-page.index') || Route::is('admin.custom-page.*')?'active':'' }}" href="{{ route('admin.custom-page.index') }}">{{ $websiteLang->where('lang_key','custom_page')->first()->custom_lang }}</a>
+
+                        <a class="collapse-item {{ Route::is('admin.terms-privacy.index')?'active':'' }}" href="{{ route('admin.terms-privacy.index') }}">{{ $websiteLang->where('lang_key','term_and_cond')->first()->custom_lang }}</a>
                     </div>
                 </div>
             </li>
@@ -98,6 +134,20 @@
                     </div>
                 </div>
             </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#admin-employment-applications-pages"
+                    aria-expanded="true" aria-controls="admin-appointment-pages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span> {{ $websiteLang->where('lang_key','employment_applications')->first()->custom_lang }}</span>
+                </a>
+                <div id="admin-employment-applications-pages" class="collapse {{Route::is('admin.all.appointment.offer')  ? 'show':'' }}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item {{ Route::is('admin.all.appointment.offer')?'active':'' }}" href="{{ route('admin.employment-application.index') }}">{{ $websiteLang->where('lang_key','all_employment_applications')->first()->custom_lang }}</a>
+
+                        
+                    </div>
+                </div>
+            </li>
 
 
 
@@ -108,7 +158,7 @@
              
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#medichine-2-pages"
                     aria-expanded="true" aria-controls="medichine-2-pages">
                     <i class="fas fa-fw fa-folder"></i>
@@ -122,7 +172,7 @@
 
                     </div>
                 </div>
-            </li>
+            </li> -->
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#doctor-2-pages"
@@ -142,6 +192,8 @@
                     </div>
                 </div>
             </li>
+
+            
 
 
             <!-- Nav Item - Pages Collapse Menu -->
@@ -164,7 +216,7 @@
 
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
+             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#page-setup-pages"
                     aria-expanded="true" aria-controls="page-setup-pages">
                     <i class="fas fa-fw fa-folder"></i>
@@ -201,10 +253,10 @@
 
                     </div>
                 </div>
-            </li>
+            </li> 
             
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#website-setup-pages"
                     aria-expanded="true" aria-controls="website-setup-pages">
                     <i class="fas fa-fw fa-folder"></i>
@@ -226,7 +278,7 @@
 
                     </div>
                 </div>
-            </li>
+            </li> -->
             
 
             <!-- Nav Item - Pages Collapse Menu -->
@@ -281,34 +333,34 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item {{ Route::is('admin.settings.index')?'active':'' }}" href="{{ route('admin.settings.index') }}">{{ $websiteLang->where('lang_key','general_setting')->first()->custom_lang }}</a>
 
-                        <a class="collapse-item {{ Route::is('admin.comment.setting')?'active':'' }}" href="{{ route('admin.comment.setting') }}">{{ $websiteLang->where('lang_key','blog_comment')->first()->custom_lang }}</a>
+                        <!-- <a class="collapse-item {{ Route::is('admin.comment.setting')?'active':'' }}" href="{{ route('admin.comment.setting') }}">{{ $websiteLang->where('lang_key','blog_comment')->first()->custom_lang }}</a> -->
 
-                        <a class="collapse-item {{ Route::is('admin.cookie.consent.setting')?'active':'' }}" href="{{ route('admin.cookie.consent.setting') }}">{{ $websiteLang->where('lang_key','cookie_consent')->first()->custom_lang }}</a>
+                        <!-- <a class="collapse-item {{ Route::is('admin.cookie.consent.setting')?'active':'' }}" href="{{ route('admin.cookie.consent.setting') }}">{{ $websiteLang->where('lang_key','cookie_consent')->first()->custom_lang }}</a> -->
 
-                        <a class="collapse-item {{ Route::is('admin.payment-account.index')?'active':'' }}" href="{{ route('admin.payment-account.index') }}">{{ $websiteLang->where('lang_key','payment_account')->first()->custom_lang }}</a>
+                        <!-- <a class="collapse-item {{ Route::is('admin.payment-account.index')?'active':'' }}" href="{{ route('admin.payment-account.index') }}">{{ $websiteLang->where('lang_key','payment_account')->first()->custom_lang }}</a> -->
 
-                        <a class="collapse-item {{ Route::is('admin.captcha.setting')?'active':'' }}" href="{{ route('admin.captcha.setting') }}">{{ $websiteLang->where('lang_key','google_captcha')->first()->custom_lang }}</a>
+                        <!-- <a class="collapse-item {{ Route::is('admin.captcha.setting')?'active':'' }}" href="{{ route('admin.captcha.setting') }}">{{ $websiteLang->where('lang_key','google_captcha')->first()->custom_lang }}</a> -->
                         <a class="collapse-item {{ Route::is('admin.livechat.setting')?'active':'' }}" href="{{ route('admin.livechat.setting') }}">{{ $websiteLang->where('lang_key','live_chat')->first()->custom_lang }}</a>
 
                         <a class="collapse-item {{ Route::is('admin.preloader.setting')?'active':'' }}" href="{{ route('admin.preloader.setting') }}">{{ $websiteLang->where('lang_key','preloader')->first()->custom_lang }}</a>
-                        <a class="collapse-item {{ Route::is('admin.google.analytic.setting')?'active':'' }}" href="{{ route('admin.google.analytic.setting') }}">{{ $websiteLang->where('lang_key','google_analytic')->first()->custom_lang }}</a>
+                        <!-- <a class="collapse-item {{ Route::is('admin.google.analytic.setting')?'active':'' }}" href="{{ route('admin.google.analytic.setting') }}">{{ $websiteLang->where('lang_key','google_analytic')->first()->custom_lang }}</a> -->
 
-                        <a class="collapse-item {{ Route::is('admin.theme-color')?'active':'' }}" href="{{ route('admin.theme-color') }}">{{ $websiteLang->where('lang_key','theme_color')->first()->custom_lang }}</a>
+                        <!-- <a class="collapse-item {{ Route::is('admin.theme-color')?'active':'' }}" href="{{ route('admin.theme-color') }}">{{ $websiteLang->where('lang_key','theme_color')->first()->custom_lang }}</a> -->
 
                         <a class="collapse-item {{ Route::is('admin.pagination.index')?'active':'' }}" href="{{ route('admin.pagination.index') }}">{{ $websiteLang->where('lang_key','pagination')->first()->custom_lang }}</a>
 
 
-                        <a class="collapse-item {{ Route::is('admin.clear.database')?'active':'' }}" href="{{ route('admin.clear.database') }}">{{ $websiteLang->where('lang_key','clear_database')->first()->custom_lang }}</a>
+                        <!-- <a class="collapse-item {{ Route::is('admin.clear.database')?'active':'' }}" href="{{ route('admin.clear.database') }}">{{ $websiteLang->where('lang_key','clear_database')->first()->custom_lang }}</a> -->
 
-                        <a class="collapse-item {{ Route::is('admin.email.template') || Route::is('admin.email-edit')?'active':'' }}" href="{{ route('admin.email.template') }}">{{ $websiteLang->where('lang_key','email_template')->first()->custom_lang }}</a>
+                        <!-- <a class="collapse-item {{ Route::is('admin.email.template') || Route::is('admin.email-edit')?'active':'' }}" href="{{ route('admin.email.template') }}">{{ $websiteLang->where('lang_key','email_template')->first()->custom_lang }}</a> -->
 
-                        <a class="collapse-item {{ Route::is('admin.email-configuration')?'active':'' }}" href="{{ route('admin.email-configuration') }}">{{ $websiteLang->where('lang_key','email_config')->first()->custom_lang }}</a>
+                        <!-- <a class="collapse-item {{ Route::is('admin.email-configuration')?'active':'' }}" href="{{ route('admin.email-configuration') }}">{{ $websiteLang->where('lang_key','email_config')->first()->custom_lang }}</a> -->
 
                         <a class="collapse-item {{ Route::is('admin.banner.image')?'active':'' }}" href="{{ route('admin.banner.image') }}">{{ $websiteLang->where('lang_key','banner_img')->first()->custom_lang }}</a>
                         <a class="collapse-item {{ Route::is('admin.login.image')?'active':'' }}" href="{{ route('admin.login.image') }}">{{ $websiteLang->where('lang_key','login_img')->first()->custom_lang }}</a>
                         <a class="collapse-item {{ Route::is('admin.profile.image')?'active':'' }}" href="{{ route('admin.profile.image') }}">{{ $websiteLang->where('lang_key','default_profile_img')->first()->custom_lang }}</a>
 
-                        <a class="collapse-item {{ Route::is('admin.database-generate')?'active':'' }}" href="{{ route('admin.database-generate') }}">Database generate</a>
+                        <!-- <a class="collapse-item {{ Route::is('admin.database-generate')?'active':'' }}" href="{{ route('admin.database-generate') }}">Database generate</a> -->
 
 
                     </div>
@@ -347,7 +399,7 @@
 
                         <a class="collapse-item {{ Route::is('admin.blog.index') || Route::is('admin.blog.create') || Route::is('admin.blog.edit') ? 'active':'' }}" href="{{ route('admin.blog.index') }}">{{ $websiteLang->where('lang_key','blog')->first()->custom_lang }}</a>
 
-                        <a class="collapse-item {{ Route::is('admin.blog-comment')?'active':'' }}" href="{{ route('admin.blog-comment') }}">{{ $websiteLang->where('lang_key','blog_comment')->first()->custom_lang }}</a>
+                        <!-- <a class="collapse-item {{ Route::is('admin.blog-comment')?'active':'' }}" href="{{ route('admin.blog-comment') }}">{{ $websiteLang->where('lang_key','blog_comment')->first()->custom_lang }}</a> -->
                     </div>
                 </div>
             </li>

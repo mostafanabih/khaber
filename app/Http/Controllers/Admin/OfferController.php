@@ -52,8 +52,9 @@ class OfferController extends Controller
      */
     public function create()
     {
+        $departments = Department::all();
         $websiteLang=ManageText::all();
-        return view('admin.offers.create',compact('websiteLang'));
+        return view('admin.offers.create',compact('departments','websiteLang'));
     }
 
     /**
@@ -82,6 +83,8 @@ class OfferController extends Controller
             'name'=>'required',
             'image'=>'required',
             'status'=>'required',
+            'main'=>'required',
+            'department_id'=>'required',
         ];
 
         $customMessages = [
@@ -107,6 +110,8 @@ class OfferController extends Controller
                 'name'=>$request->name,
                 'image'=>$image_path,
                 'status'=>$request->status,
+                'main'=>$request->main,
+                'department_id'=>$request->department_id,
             ]);
 
         $notify_lang=NotificationText::all();
@@ -119,8 +124,9 @@ class OfferController extends Controller
 
     public function edit(Offer $offer)
     {
+        $departments = Department::all();
         $websiteLang=ManageText::all();
-        return view('admin.offers.edit',compact('offer','websiteLang'));
+        return view('admin.offers.edit',compact('departments','offer','websiteLang'));
     }
 
     /**
@@ -150,6 +156,8 @@ class OfferController extends Controller
             'name'=>'required',
             'image'=>'required',
             'status'=>'required',
+            'main'=>'required',
+            'department_id'=>'required',
         ];
 
         $customMessages = [
@@ -182,6 +190,8 @@ class OfferController extends Controller
             'name'=>$request->name,
             'image'=>$image_path,
             'status'=>$request->status,
+            'main'=>$request->main,
+            'department_id'=>$request->department_id,
         ]);
 
         $notify_lang=NotificationText::all();
@@ -233,6 +243,25 @@ class OfferController extends Controller
             $message=$notification;
         }else{
             $offer->status=1;
+            $notify_lang=NotificationText::all();
+            $notification=$notify_lang->where('lang_key','active')->first()->custom_lang;
+            $message=$notification;
+        }
+        $offer->save();
+        return response()->json($message);
+
+    }
+
+    // change doctor status
+    public function changeMain($id){
+        $offer=Offer::find($id);
+        if($offer->main==1){
+            $offer->main=0;
+            $notify_lang=NotificationText::all();
+            $notification=$notify_lang->where('lang_key','inactive')->first()->custom_lang;
+            $message=$notification;
+        }else{
+            $offer->main=1;
             $notify_lang=NotificationText::all();
             $notification=$notify_lang->where('lang_key','active')->first()->custom_lang;
             $message=$notification;

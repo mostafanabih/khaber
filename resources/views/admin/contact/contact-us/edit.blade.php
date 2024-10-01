@@ -40,14 +40,14 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="twitter">{{ $websiteLang->where('lang_key','twitter')->first()->custom_lang }}</label>
+                                    <label for="twitter">{{ $websiteLang->where('lang_key','snapchat')->first()->custom_lang }}</label>
                                     <input type="text" name="twitter" class="form-control" id="twitter"  value="{{ $contact->twitter }}">
 
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="pinterest">{{ $websiteLang->where('lang_key','pinterest')->first()->custom_lang }}</label>
+                                    <label for="pinterest">{{ $websiteLang->where('lang_key','instagram')->first()->custom_lang }}</label>
                                     <input type="text" name="pinterest" class="form-control" id="pinterest"  value="{{ $contact->pinterest }}">
 
                                 </div>
@@ -55,7 +55,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="linkedin">{{ $websiteLang->where('lang_key','linkedin')->first()->custom_lang }}</label>
+                                    <label for="linkedin">{{ $websiteLang->where('lang_key','tiktok')->first()->custom_lang }}</label>
                                     <input type="text" name="linkedin" class="form-control" id="linkedin"  value="{{ $contact->linkedin }}">
 
                                 </div>

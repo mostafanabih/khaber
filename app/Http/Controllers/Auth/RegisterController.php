@@ -110,9 +110,9 @@ class RegisterController extends Controller
         $data = array(
             'number' => $eventPhn,
             'body' => 'شكرا علي تواصلكم معنا تم انشاء حساب لدي مجمع النعيم الطبي',
-            'url' => 'https://land.wmc-ksa.com/social/public/image/wmc-logo.png',
+            'url' => 'https://alnaim.ksa-api.com/uploads/website-images/logo-2024-09-08-01-58-52-4632.png',
             'type' => 'image',
-            'token' => '72|BaWdbyfQsE34JyUs63MLpkJSExBPsbPkavfl8o5Vab61788a'
+            'token' => '80|J20wwT6JMTxXjoqnswUE3BPV5hL3Q6SHfq3Z2SXi0fd80aed'
         );
 
         $options = array(
@@ -126,8 +126,7 @@ class RegisterController extends Controller
         $context  = stream_context_create($options);
         $result = file_get_contents($url, false, $context);
 
-        
-    
+
         
 
         return Redirect()->back()->with($notification);
@@ -146,7 +145,6 @@ class RegisterController extends Controller
             $notification=array('messege'=>$notification,'alert-type'=>'success');
             return  redirect()->route('login')->with($notification);
         }else{
-
             $notify_lang=NotificationText::all();
             $notification=$notify_lang->where('lang_key','invalid_token')->first()->custom_lang;
             $notification=array('messege'=>$notification,'alert-type'=>'error');

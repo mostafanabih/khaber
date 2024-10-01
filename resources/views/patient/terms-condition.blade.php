@@ -1,5 +1,9 @@
 @extends('layouts.patient.layout')
 @section('patient-content')
+@php
+$translator = new Stichoza\GoogleTranslate\GoogleTranslate('ar');
+@endphp
+
 
 
 <!--Banner Start-->
@@ -8,10 +12,16 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="banner-text">
-                    <h1>{{ $navigation->terms_and_condition }}</h1>
+                    <h1>@if($setting->text_direction=='RTL'){{ $navigation->terms_and_condition}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->terms_and_condition) }}
+                            @endif</h1>
                     <ul>
-                        <li><a href="{{ url('/') }}">{{ $navigation->home }}</a></li>
-                        <li><span>{{ $navigation->terms_and_condition }}</span></li>
+                        <li><a href="{{ url('/') }}">@if($setting->text_direction=='RTL'){{ $navigation->home}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->home) }}
+                            @endif</a></li>
+                        <li><span style="color:#fff !important;">@if($setting->text_direction=='RTL'){{ $navigation->terms_and_condition}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->terms_and_condition) }}
+                            @endif</span></li>
                     </ul>
                 </div>
             </div>
@@ -26,7 +36,9 @@
         <div class="row">
             <div class="col-lg-12">
                 @if ($condition_count !=0 )
-                {!! clean($condition->terms_condition) !!}
+                @if($setting->text_direction=='RTL'){!! clean($condition->terms_condition)!!}@else
+                            {!! $translator->setTarget('en')->translate(clean($condition->terms_condition)) !!}
+                            @endif
                 @endif
 
             </div>

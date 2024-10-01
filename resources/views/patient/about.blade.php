@@ -16,7 +16,7 @@
                     <h1>{{ $navigation->about_us }}</h1>
                     <ul>
                         <li><a href="{{ url('/') }}">{{ $navigation->home }}</a></li>
-                        <li><span>{{ $navigation->about_us }}</span></li>
+                        <li><span style="color:#fff !important;">{{ $navigation->about_us }}</span></li>
                     </ul>
                 </div>
             </div>
@@ -92,7 +92,10 @@
                     <div class="counter-icon">
                         <i class="{{ $overview->icon }}"></i>
                     </div>
-                    <h2 class="counter">{{ $overview->qty }}</h2>
+                   <div style="display: flex;align-items: center;justify-content: center;gap:5px;">
+                       <span style="color:#fff;font-size: large;font-weight: 800;">+</span>
+                       <h2 class="counter">{{ $overview->qty }}</h2>
+                    </div>
                     <h4>{{ $overview->name }}</h4>
                 </div>
             </div>

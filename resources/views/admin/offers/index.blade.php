@@ -21,6 +21,7 @@
                             <th width="5%">{{ $websiteLang->where('lang_key','name')->first()->custom_lang }}</th>
                             <th width="5%">{{ $websiteLang->where('lang_key','img')->first()->custom_lang }}</th>
                             <th width="5%">{{ $websiteLang->where('lang_key','status')->first()->custom_lang }}</th>
+                            <th width="5%">{{ $websiteLang->where('lang_key','main')->first()->custom_lang }}</th>
                             <th width="25%">{{ $websiteLang->where('lang_key','action')->first()->custom_lang }}</th>
                         </tr>
                     </thead>
@@ -37,6 +38,14 @@
                                 <a href="" onclick="doctorStatus({{ $item->id }})"><input type="checkbox" checked data-toggle="toggle" data-on="{{ $websiteLang->where('lang_key','active')->first()->custom_lang }}" data-off="{{ $websiteLang->where('lang_key','inactive')->first()->custom_lang }}" data-onstyle="success" data-offstyle="danger"></a>
                                 @else
                                     <a href="" onclick="doctorStatus({{ $item->id }})"><input type="checkbox" data-toggle="toggle" data-on="{{ $websiteLang->where('lang_key','active')->first()->custom_lang }}" data-off="{{ $websiteLang->where('lang_key','inactive')->first()->custom_lang }}" data-onstyle="success" data-offstyle="danger"></a>
+
+                                @endif
+                            </td>
+                            <td>
+                                @if ($item->main==1)
+                                <a href="" onclick="doctorMain({{ $item->id }})"><input type="checkbox" checked data-toggle="toggle" data-on="{{ $websiteLang->where('lang_key','active')->first()->custom_lang }}" data-off="{{ $websiteLang->where('lang_key','inactive')->first()->custom_lang }}" data-onstyle="success" data-offstyle="danger"></a>
+                                @else
+                                    <a href="" onclick="doctorMain({{ $item->id }})"><input type="checkbox" data-toggle="toggle" data-on="{{ $websiteLang->where('lang_key','active')->first()->custom_lang }}" data-off="{{ $websiteLang->where('lang_key','inactive')->first()->custom_lang }}" data-onstyle="success" data-offstyle="danger"></a>
 
                                 @endif
                             </td>
@@ -74,6 +83,28 @@
             $.ajax({
                 type:"get",
                 url:"{{url('/admin/offer-status/')}}"+"/"+id,
+                success:function(response){
+                   toastr.success(response)
+                },
+                error:function(err){
+                    console.log(err);
+
+                }
+            })
+        }
+
+        function doctorMain(id){
+                  // project demo mode check
+         var isDemo="{{ env('PROJECT_MODE') }}"
+         var demoNotify="{{ env('NOTIFY_TEXT') }}"
+         if(isDemo==0){
+             toastr.error(demoNotify);
+             return;
+         }
+         // end
+            $.ajax({
+                type:"get",
+                url:"{{url('/admin/offer-main/')}}"+"/"+id,
                 success:function(response){
                    toastr.success(response)
                 },

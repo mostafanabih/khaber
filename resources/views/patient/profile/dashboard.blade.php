@@ -14,7 +14,7 @@
                     <h1>{{ $navigation->dashboard }}</h1>
                     <ul>
                         <li><a href="index.php">{{ $navigation->home }}</a></li>
-                        <li><span>{{ $navigation->dashboard }}</span></li>
+                        <li><span style="color:#fff !important;">{{ $navigation->dashboard }}</span></li>
                     </ul>
                 </div>
             </div>

@@ -5,6 +5,9 @@
     $setting=App\Setting::first();
     $isRtl=$setting->text_direction;
 @endphp
+@php
+$translator = new Stichoza\GoogleTranslate\GoogleTranslate('ar');
+@endphp
 
 <!--Start of Tawk.to Script-->
 <!-- @if ($subscriberContent->live_chat==1)
@@ -28,8 +31,12 @@
         <div class="row ov_hd">
             <div class="col-md-12 wow fadeInDown" data-wow-delay="0.1s">
                 <div class="main-headline white">
-                    <h1>{{ ucwords($subscriberContent->subscribe_heading) }}</h1>
-                    <p>{{ $subscriberContent->subscribe_description }}</p>
+                    <h1>@if($setting->text_direction=='RTL'){{ ucwords($subscriberContent->subscribe_heading)}}@else
+                            {{ $translator->setTarget('en')->translate(ucwords($subscriberContent->subscribe_heading)) }}
+                            @endif</h1>
+                    <p>@if($setting->text_direction=='RTL'){{ $subscriberContent->subscribe_description}}@else
+                            {{ $translator->setTarget('en')->translate($subscriberContent->subscribe_description) }}
+                            @endif</p>
                 </div>
             </div>
         </div>
@@ -39,7 +46,9 @@
                     <form method="POST" action="{{ url('subscribe-us') }}">
                         @csrf
                         <input type="email" required name="email" placeholder="{{ $websiteLang->where('lang_key','email')->first()->custom_lang }}">
-                        <button type="submit" class="btn-sub">{{ $websiteLang->where('lang_key','subscribe')->first()->custom_lang }}</button>
+                        <button type="submit" class="btn-sub">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','subscribe')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','subscribe')->first()->custom_lang) }}
+                            @endif</button>
                     </form>
                 </div>
             </div>
@@ -92,8 +101,12 @@
                         <ul>
                             <li>
                                 <i class="far fa-envelope"></i>
-                                <h5>{{ $websiteLang->where('lang_key','email_address')->first()->custom_lang }} </h5>
-                                <p>{!! nl2br(e($contactInformation->emails)) !!}</p>
+                                <h5>@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','email_address')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','email_address')->first()->custom_lang) }}
+                            @endif </h5>
+                                <p>@if($setting->text_direction=='RTL'){!! nl2br(e($contactInformation->emails))!!}@else
+                            {!! $translator->setTarget('en')->translate(nl2br(e($contactInformation->emails))) !!}
+                            @endif</p>
                             </li>
                         </ul>
                     </div>
@@ -103,8 +116,12 @@
                         <ul>
                             <li>
                                 <i class="fas fa-phone"></i>
-                                <h5>{{ $websiteLang->where('lang_key','phone')->first()->custom_lang }}</h5>
-                                <p>{!! nl2br(e($contactInformation->phones)) !!}</p>
+                                <h5>@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','phone')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','phone')->first()->custom_lang) }}
+                            @endif</h5>
+                                <p>@if($setting->text_direction=='RTL'){!! nl2br(e($contactInformation->phones))!!}@else
+                            {!! $translator->setTarget('en')->translate(nl2br(e($contactInformation->phones))) !!}
+                            @endif</p>
 
                             </li>
                         </ul>
@@ -115,8 +132,12 @@
                         <ul>
                             <li>
                                 <i class="fas fa-map-marker-alt"></i>
-                                <h5>{{ $websiteLang->where('lang_key','address')->first()->custom_lang }}</h5>
-                                <p>{!! nl2br(e($contactInformation->address)) !!}</p>
+                                <h5>@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','address')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','address')->first()->custom_lang) }}
+                            @endif</h5>
+                                <p>@if($setting->text_direction=='RTL'){!! nl2br(e($contactInformation->address))!!}@else
+                            {!! $translator->setTarget('en')->translate(nl2br(e($contactInformation->address))) !!}
+                            @endif</p>
                             </li>
                         </ul>
                     </div>
@@ -129,42 +150,71 @@
             <div class="row">
                 <div class="col-md-4 col-sm-6">
                     <div class="footer-item">
-                        <h3>{{ $websiteLang->where('lang_key','about_us')->first()->custom_lang }}</h3>
+                        <h3>@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','about_us')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','about_us')->first()->custom_lang) }}
+                            @endif</h3>
                         <div class="textwidget">
                             <p>
-                                {{ $contactInformation->about }}
+                            @if($setting->text_direction=='RTL'){{ $contactInformation->about}}@else
+                            {{ $translator->setTarget('en')->translate($contactInformation->about) }}
+                            @endif
                             </p>
-                            <a class="sm_fbtn" href="{{ url('about-us') }}">{{ $websiteLang->where('lang_key','details')->first()->custom_lang }} →</a>
+                            <a class="sm_fbtn" href="{{ url('about-us') }}">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','details')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','details')->first()->custom_lang) }}
+                            @endif →</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
                     <div class="footer-item">
-                        <h3>{{ $websiteLang->where('lang_key','important_link')->first()->custom_lang }}</h3>
+                        <h3>@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','important_link')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','important_link')->first()->custom_lang) }}
+                            @endif</h3>
                         <ul>
                             @if ($navbar->show_homepage==1)
-                                <li><a href="{{ url('/') }}">{{ $navigation->home }}</a></li>
+                                <li><a href="{{ url('/') }}">@if($setting->text_direction=='RTL'){{ $navigation->home}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->home) }}
+                            @endif</a></li>
                             @endif
                             @if ($navbar->show_aboutus==1)
-                                <li><a href="{{ url('about-us') }}">{{ $navigation->about_us }}</a></li>
+                                <li><a href="{{ url('about-us') }}">@if($setting->text_direction=='RTL'){{ $navigation->about_us}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->about_us) }}
+                            @endif</a></li>
                             @endif
                             @if ($navbar->show_department)
-                                <li><a href="{{ url('department') }}">{{ $navigation->department }}</a></li>
+                                <li><a href="{{ url('department') }}">@if($setting->text_direction=='RTL'){{ $navigation->department}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->department) }}
+                            @endif</a></li>
                             @endif
                             @if ($navbar->show_doctor)
-                                <li><a href="{{ url('doctor') }}">{{ $navigation->doctor }}</a></li>
+                                <li><a href="{{ url('doctor') }}">@if($setting->text_direction=='RTL'){{ $navigation->doctor}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->doctor) }}
+                            @endif</a></li>
                             @endif
 
 
                         </ul>
                         <ul>
-                            <li><a href="{{ url('terms-condition') }}">{{ $navigation->terms_and_condition }}</a></li>
-                            <li><a href="{{ url('privacy-policy') }}">{{ $navigation->privacy_policy }}</a></li>
+                            <li><a href="{{ url('terms-condition') }}">@if($setting->text_direction=='RTL'){{ $navigation->terms_and_condition}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->terms_and_condition) }}
+                            @endif</a></li>
+                            <li><a href="{{ url('privacy-policy') }}">@if($setting->text_direction=='RTL'){{ $navigation->privacy_policy }}@else
+                            {{ $translator->setTarget('en')->translate($navigation->privacy_policy ) }}
+                            @endif</a></li>
                             @if ($navbar->show_blog==1)
-                            <li><a href="{{ url('blog') }}">{{ $navigation->blog }}</a></li>
+                            <li><a href="{{ url('blog') }}">@if($setting->text_direction=='RTL'){{ $navigation->blog}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->blog) }}
+                            @endif</a></li>
+                            @endif
+                            @if ($navbar->show_faq==1)
+                            <li><a href="{{ url('faq') }}">@if($setting->text_direction=='RTL'){{ $navigation->faq }}@else
+                            {{ $translator->setTarget('en')->translate($navigation->faq ) }}
+                            @endif</a></li>
                             @endif
                             @if ($navbar->show_contactus==1)
-                            <li><a href="{{ url('contact-us') }}">{{ $navigation->contact_us }}</a></li>
+                            <li><a href="{{ url('contact-us') }}">@if($setting->text_direction=='RTL'){{ $navigation->contact_us}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->contact_us) }}
+                            @endif</a></li>
                             @endif
 
 
@@ -176,18 +226,25 @@
                         $latestBlogs=App\Blog::orderBy('id','desc')->take(3)->get();
                     @endphp
                     <div class="footer-item">
-                        <h3>{{ $websiteLang->where('lang_key','recent_post')->first()->custom_lang }}</h3>
-                        @foreach ($latestBlogs as $item)
-                        <div class="footer-recent-item">
-                            <div class="footer-recent-photo">
-                                <a href="{{ url('blog-details/'.$item->slug) }}"><img src="{{ url($item->thumbnail_image) }}" alt="blog image"></a>
-                            </div>
-                            <div class="footer-recent-text">
-                                <a href="{{ url('blog-details/'.$item->slug) }}">{{ $item->title }}</a>
-                                <div class="footer-post-date">{{ $item->created_at->format('m-d-Y') }}</div>
-                            </div>
-                        </div>
-                        @endforeach
+                        <h3>@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','location')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','location')->first()->custom_lang) }}
+                            @endif</h3>
+                        <div class="map-box  wow fadeInUp" data-wow-delay=".6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;">
+            <div class="mapouter" style="
+    position: relative;
+    text-align: left;
+    width: 100%;
+">
+              <div class="gmap_canvas" style="
+    overflow: hidden;
+    background: none;
+">
+                <iframe class="map-iframe" id="gmap_canvas" 
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3618.645907837392!2d49.5714304!3d25.4377984!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e49d74b98d3c04b%3A0xdd2d0f832f362a90!2sAlehsaa%2C%20Saudi%20Arabia!5e0!3m2!1sen!2seg!4v1624568400000!5m2!1sen!2seg" 
+    width="400" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+              </div>
+            </div>
+          </div>
 
                     </div>
                 </div>
@@ -199,7 +256,9 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="copyright-text">
-                        <p>{{ $contactInformation->copyright }}</p>
+                        <p>@if($setting->text_direction=='RTL'){{ $contactInformation->copyright}}@else
+                            {{ $translator->setTarget('en')->translate($contactInformation->copyright) }}
+                            @endif</p>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -208,13 +267,13 @@
                         <a href="{{ $contact->facebook }}"><i class="fab fa-facebook-f"></i></a>
                         @endif
                         @if ($contact->twitter)
-                        <a href="{{ $contact->twitter }}"><i class="fab fa-twitter"></i></a>
+                        <a href="{{ $contact->twitter }}"><i class="fab fa-snapchat"></i></a>
                         @endif
                         @if ($contact->pinterest)
-                        <a href="{{ $contact->pinterest }}"><i class="fab fa-pinterest-p"></i></a>
+                        <a href="{{ $contact->pinterest }}"><i class="fab fa-instagram"></i></a>
                         @endif
                         @if ($contact->linkedin)
-                        <a href="{{ $contact->linkedin }}"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="{{ $contact->linkedin }}"><i class="fab fa-tiktok"></i></a>
                         @endif
                         @if ($contact->youtube)
                         <a href="{{ $contact->youtube }}"><i class="fab fa-youtube"></i></a>
@@ -234,11 +293,15 @@
 @if ($cookie->allow_cookie_consent==1)
 <div class="cookie-container">
     <p>
-      {!! clean($cookie->cookie_text) !!}
+    @if($setting->text_direction=='RTL'){!! clean($cookie->cookie_text)!!}@else
+                            {!! $translator->setTarget('en')->translate(clean($cookie->cookie_text)) !!}
+                            @endif
     </p>
 
     <button class="cookie-btn">
-      {{ ucwords($cookie->cookie_button_text) }}
+    @if($setting->text_direction=='RTL'){{ ucwords($cookie->cookie_button_text)}}@else
+                            {{ $translator->setTarget('en')->translate(ucwords($cookie->cookie_button_text)) }}
+                            @endif
     </button>
   </div>
 
@@ -305,24 +368,50 @@
   });
 </script>
 <script>
-    var swiper = new Swiper(".offers", {
-        slidesPerView: 3,
-  spaceBetween: 30,
-  pagination: {
-    el: ".swiper-pagination",
-    clickable: true,
-  },
-  navigation: {
-    nextEl: ".client-button-next",
-    prevEl: ".client-button-prev",
-  },
-  autoplay: {
-    delay: 3000, // Time in milliseconds before the next slide
-    disableOnInteraction: false, // Keep autoplay going even if the user interacts with the slider
-  },
-  loop: true, // Restart the slider from the beginning once it reaches the end
-});
+  document.addEventListener('DOMContentLoaded', function() {
+    const swiperOptions = {
+        spaceBetween: 30,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        navigation: {
+            nextEl: ".client-button-next",
+            prevEl: ".client-button-prev",
+        },
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+        loop: true,
+        breakpoints: {
+            640: {
+                slidesPerView: 1,
+            },
+            1024: {
+                slidesPerView: 2,
+            },
+            1280: {
+                slidesPerView: 3,
+            }
+        }
+    };
 
+    const swipers = {};
+
+    function initSwiper(departmentId) {
+        if (!swipers[departmentId]) {
+            swipers[departmentId] = new Swiper(`.offers-${departmentId}`, swiperOptions);
+        }
+    }
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+        const departmentId = $(e.target).attr('href').replace('#department-', '');
+        initSwiper(departmentId);
+    });
+
+    
+});
 </script>
 
 
@@ -785,6 +874,39 @@ $('#offer_modal').modal('hide');
 });
 
     </script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+    // Show the modal on page load
+    $('#myModal2').modal('show');
+
+    // Hide the modal after 5 seconds
+    setTimeout(function() {
+        $('#myModal2').modal('hide');
+    }, 7000); // 5000 milliseconds = 5 seconds
+});
+</script>
+<script>
+    function toggleLanguage() {
+    fetch('/update-language', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({ text_direction: '{{ $setting->text_direction == "RTL" ? "LTR" : "RTL" }}' })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Refresh the page or update the UI as needed
+        location.reload();
+    })
+    .catch(error => {
+        console.error('Error updating language:', error);
+    });
+}
+</script>
+
 
 
 </body>

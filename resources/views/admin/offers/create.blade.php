@@ -38,13 +38,27 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="main">{{ $websiteLang->where('lang_key','main')->first()->custom_lang }} *</label>
+                                    <select name="main" id="main" class="form-control">
+                                        <option value="0">{{ $websiteLang->where('lang_key','inactive')->first()->custom_lang }}</option>
+                                        <option value="1">{{ $websiteLang->where('lang_key','active')->first()->custom_lang }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="main">{{ $websiteLang->where('lang_key','dep')->first()->custom_lang }} *</label>
+                                    <select name="department_id" id="department_id" class="form-control">
+                                        @foreach($departments as $department)
+                                         <option value="{{$department->id}}">{{$department->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        <div class="row">
-                            
-                            
-
-                        </div>
-
+                        
                         
 
 

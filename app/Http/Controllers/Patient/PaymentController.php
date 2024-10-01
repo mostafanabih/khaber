@@ -44,6 +44,7 @@ class PaymentController extends Controller
     }
 
     public function payment(){
+        
         $currency=Setting::first();
         $user=Auth::guard('web')->user();
         $notify=NotificationText::first();
@@ -749,12 +750,7 @@ class PaymentController extends Controller
 
 
     public function payWithPaymongo(Request $request){
-        // project demo mode check
-        if(env('PROJECT_MODE')==0){
-            $notification=array('messege'=>env('NOTIFY_TEXT'),'alert-type'=>'error');
-            return redirect()->back()->with($notification);
-        }
-        // end
+       
 
         $user=Auth::guard('web')->user();
         $currency=Setting::first();
@@ -771,137 +767,8 @@ class PaymentController extends Controller
         $amount_usd = round($cartPrice / $setting->currency_rate,2);
         $payableAmount = round($cartPrice * $paymongoPayment->currency_rate,2);
 
-        // create payment method
-        require_once('vendor/autoload.php');
-        $client = new \GuzzleHttp\Client();
-        $card_number = $request->card_number;
-        $cvc = $request->cvc;
-        $month = $request->month;
-        $year = $request->year;
-        $code = base64_encode($paymongoPayment->public_key.':'.$paymongoPayment->secret_key);
+                 return view('patient.payment.index',compact('total_price',));
 
-        try{
-            $response = $client->request('POST', 'https://api.paymongo.com/v1/payment_methods', [
-                'body' => '{"data":{"attributes":{"details":{"card_number":"'.$card_number.'","exp_month":'.$month.',"exp_year":'.$year.',"cvc":"'.$cvc.'"},"type":"card"}}}',
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Authorization' => 'Basic '.$code.'',
-                    'Content-Type' => 'application/json',
-                ],
-            ]);
-        }catch (Exception $e) {
-            $notify_lang=NotificationText::all();
-            $notification=$notify_lang->where('lang_key','valid_card')->first()->custom_lang;
-            $notification=array('messege'=>$notification,'alert-type'=>'error');
-
-            return redirect()->back()->with($notification);
-        }
-
-        $response = json_decode($response->getBody(), true);
-        $payment_method_id = $response['data']['id'];
-
-        if($price < 100){
-            $notify_lang=NotificationText::all();
-            $notification=$notify_lang->where('lang_key','amont_100')->first()->custom_lang;
-            $notification=array('messege'=>$notification,'alert-type'=>'error');
-
-            return redirect()->back()->with($notification);
-        }
-
-        $price = $price * 100;
-
-        // create payment instant
-        $client = new \GuzzleHttp\Client();
-        $secret_code = base64_encode($paymongoPayment->secret_key);
-        $response = $client->request('POST', 'https://api.paymongo.com/v1/payment_intents', [
-        'body' => '{"data":{"attributes":{"amount":'.$price.',"payment_method_allowed":["card"],"payment_method_options":{"card":{"request_three_d_secure":"any"}},"currency":"'.$currency_code.'","capture_type":"automatic"}}}',
-        'headers' => [
-            'Accept' => 'application/json',
-            'Authorization' => 'Basic '.$secret_code.'',
-            'Content-Type' => 'application/json',
-        ],
-        ]);
-
-        $intent_response = json_decode($response->getBody(), true);
-        $intent_client_key = $intent_response['data']['attributes']['client_key'];
-        $intent_id = $intent_response['data']['id'];
-
-        $client = new \GuzzleHttp\Client();
-
-        // create payment
-        $payment_response = $client->request('POST', 'https://api.paymongo.com/v1/payment_intents/'.$intent_id.'/attach', [
-        'body' => '{"data":{"attributes":{"payment_method":"'.$payment_method_id.'","client_key":"'.$intent_client_key.'"}}}',
-        'headers' => [
-            'Accept' => 'application/json',
-            'Authorization' => 'Basic '.$secret_code.'',
-            'Content-Type' => 'application/json',
-        ],
-        ]);
-
-        $payment_response = json_decode($response->getBody(), true);
-
-        if($payment_response['data']['attributes']['status'] != 'faild'){
-            // insert order
-            $order= Order::create([
-                'user_id'=>$user->id,
-                'order_id'=>'#'.date('Yms').rand(9,99),
-                'total_payment'=>str_replace( array( '\'', '"', ',' , ';', '<', '>' ), '', Cart::pricetotal()),
-                'appointment_qty'=>Cart::count(),
-                'payment_method'=>'Paymongo',
-                'payment_status'=>1,
-                'last4'=>substr($request->card_number,-4),
-                'payment_transaction_id'=>$payment_response['data']['id']
-            ]);
-            $order_details="";
-            foreach(Cart::content() as $item){
-                Appointment::create([
-                    'order_id'=>$order->id,
-                    'doctor_id'=>$item->options->doctor_id,
-                    'user_id'=>$user->id,
-                    'day_id'=>$item->options->day_id,
-                    'schedule_id'=>$item->options->schedule_id,
-                    'date'=>$item->options->date,
-                    'appointment_fee'=>$item->price,
-                    'payment_status'=>1,
-                    'payment_transaction_id'=>$payment_response['data']['id'],
-                    'payment_method'=>'Paymongo',
-
-                ]);
-
-                $doctor=Doctor::find($item->options->doctor_id);
-                $order_details.='Doctor: '. $doctor->name. '<br>';
-                $order_details.='Phone: '. $doctor->phone .'<br>';
-                $order_details.='Schedule: '.$item->options->time .'<br>';
-                $order_details.='Date: '.$currency->currency_icon.$item->price .'<br>';
-            }
-
-            Cart::destroy();
-
-            // send email
-            $template=EmailTemplate::where('id',6)->first();
-            $message=$template->description;
-            $subject=$template->subject;
-            $message=str_replace('{{patient_name}}',$user->name,$message);
-            $message=str_replace('{{orderId}}', $order->order_id ,$message);
-            $message=str_replace('{{payment_method}}','Paymongo',$message);
-            $total_amount=$currency->currency_icon. $order->total_payment;
-            $message=str_replace('{{amount}}',$total_amount,$message);
-            $message=str_replace('{{order_details}}',$order_details,$message);
-            MailHelper::setMailConfig();
-            Mail::to($user->email)->send(new OrderConfirmation($message,$subject));
-
-            $notify_lang=NotificationText::all();
-            $notification=$notify_lang->where('lang_key','payment')->first()->custom_lang;
-            $notification=array('messege'=>$notification,'alert-type'=>'success');
-
-            return redirect()->route('patient.order')->with($notification);
-        }else{
-            $notify_lang=NotificationText::all();
-            $notification=$notify_lang->where('lang_key','payment_faild')->first()->custom_lang;
-            $notification=array('messege'=>$notification,'alert-type'=>'error');
-
-            return redirect()->route('patient.payment')->with($notification);
-        }
     }
 
 

@@ -54,6 +54,7 @@ class HomeController extends Controller
     }
 
     public function index(){
+        $offer = Offer::where('main',1)->first();
         $homesections=HomeSection::all();
         $sliders=Slider::where('status',1)->get();
         $features=Feature::where('status',1)->get();
@@ -73,7 +74,7 @@ class HomeController extends Controller
         $title_meta=$this->title_meta;
         $banner=$this->banner;
         $websiteLang=ManageText::all();
-        return view('patient.index',compact('services','blogs','feature_blog','departments','services','doctors','locations','features','testimonials','doctorsForSearch','departmentsForSearch','homesections','sliders','work','workFaqs','title_meta','overviews','banner','websiteLang','blog_count'));
+        return view('patient.index',compact('offer','services','blogs','feature_blog','departments','services','doctors','locations','features','testimonials','doctorsForSearch','departmentsForSearch','homesections','sliders','work','workFaqs','title_meta','overviews','banner','websiteLang','blog_count'));
     }
 
     public function aboutUs(){
@@ -90,13 +91,19 @@ class HomeController extends Controller
     }
 
     public function offers(){
+        $departments = Department::whereHas('offers',function($query)
+        {
+            $query->where('status', 1);
+        })->with('offers',function($q){
+            $q->where('status', 1);
+        })->get();
         $offersection=HomeSection::where('id',8)->first();
         $title_meta=$this->title_meta;
         $banner=$this->banner;
-        $offers=Offer::where('status',1)->get();
+
         $navigation=Navigation::first();
 
-        return view('patient.offer',compact('navigation','offers','banner','title_meta','offersection'));
+        return view('patient.offer',compact('departments','navigation','banner','title_meta','offersection'));
     }
 
     public function Faq(){
@@ -397,6 +404,17 @@ class HomeController extends Controller
         $navigation=Navigation::first();
         return view('patient.custom-page',compact('page','title_meta','banner','navigation'));
     }
+
+
+
+    public function updateLanguage(Request $request)
+{
+    $setting = Setting::first();
+    $setting->text_direction = $request->input('text_direction');
+    $setting->save();
+
+    return response()->json(['success' => true]);
+}
 
 
     

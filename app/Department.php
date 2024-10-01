@@ -22,4 +22,8 @@ class Department extends Model
     public function videos(){
         return $this->hasMany(Video::class);
     }
+
+    public function offers(){
+        return $this->hasMany(Offer::class);
+    }
 }

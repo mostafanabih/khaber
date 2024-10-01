@@ -4,11 +4,7 @@ $setting=App\Setting::first();
 @endphp
 
 <!DOCTYPE html>
-@if ($setting->text_direction=='RTL')
 <html lang="en" dir="rtl">
-@else
-    <html lang="en">
-@endif
 
 <head>
 
@@ -30,12 +26,8 @@ $setting=App\Setting::first();
 
     <link rel="stylesheet" href="{{ asset('backend/css/prescription.css') }}">
     <!-- Custom styles for this template-->
-    @if ($setting->text_direction=='RTL')
      <link href="{{ asset('backend/css/sb-admin-2-rtl.css') }}" rel="stylesheet">
-    @else
-    <link href="{{ asset('backend/css/sb-admin-2.css') }}" rel="stylesheet">
-    @endif
-
+    
 
 
     <link href="{{ asset('backend/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">

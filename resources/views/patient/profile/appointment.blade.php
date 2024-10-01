@@ -14,7 +14,7 @@
                     <h1>{{ $websiteLang->where('lang_key','app_list')->first()->custom_lang }}</h1>
                     <ul>
                         <li><a href="{{ url('/') }}">{{ $navigation->home }}</a></li>
-                        <li><span>{{ $websiteLang->where('lang_key','app_list')->first()->custom_lang }}</span></li>
+                        <li><span style="color:#fff !important;">{{ $websiteLang->where('lang_key','app_list')->first()->custom_lang }}</span></li>
                     </ul>
                 </div>
             </div>

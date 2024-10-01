@@ -12,7 +12,8 @@
         "bumbummen99/shoppingcart": "^4.0",
         "emotality/tawk-laravel": "^1.1",
         "fideloper/proxy": "^4.4",
-        "firebase/php-jwt": "^5.4",
+        "firebase/php-jwt": "^6.0.0",
+        "stichoza/google-translate-php": "^4.1",
         "fruitcake/laravel-cors": "^2.0",
         "google/recaptcha": "~1.1",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -26,6 +27,7 @@
         "paypal/rest-api-sdk-php": "^1.14",
         "pusher/pusher-php-server": "^7.0",
         "razorpay/razorpay": "^2.8",
+        "stichoza/google-translate-php": "5.2",
         "stripe/stripe-php": "^7.83"
     },
     "require-dev": {

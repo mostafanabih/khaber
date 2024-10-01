@@ -272,6 +272,7 @@ $setting=App\Setting::first();
 });
 </script>
 
+
 </body>
 
 </html>
