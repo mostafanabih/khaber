@@ -6,6 +6,10 @@
 <meta name="description" content="{{ $title_meta->aboutus_meta_description }}">
 @endsection
 @section('patient-content')
+@php
+$translator = new Stichoza\GoogleTranslate\GoogleTranslate('ar');
+@endphp
+
 
 <!--Banner Start-->
 <div class="banner-area flex" style="background-image:url({{ $banner->about_us ? url($banner->about_us) : '' }});">
@@ -13,10 +17,16 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="banner-text">
-                    <h1>{{ $navigation->about_us }}</h1>
+                    <h1>@if($setting->text_direction=='RTL'){{ $navigation->about_us}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->about_us) }}
+                            @endif</h1>
                     <ul>
-                        <li><a href="{{ url('/') }}">{{ $navigation->home }}</a></li>
-                        <li><span style="color:#fff !important;">{{ $navigation->about_us }}</span></li>
+                        <li><a href="{{ url('/') }}">@if($setting->text_direction=='RTL'){{ $navigation->home}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->home) }}
+                            @endif</a></li>
+                        <li><span style="color:#fff !important;">@if($setting->text_direction=='RTL'){{ $navigation->about_us}}@else
+                            {{ $translator->setTarget('en')->translate($navigation->about_us) }}
+                            @endif</span></li>
                     </ul>
                 </div>
             </div>
@@ -33,7 +43,9 @@
         <div class="row">
             <div class="col-lg-7">
                 <div class="about1-text sm_pr_0 pr_150 mt_30">
-                   {!! clean($about->about_description) !!}
+                @if($setting->text_direction=='RTL'){!! clean($about->about_description)!!}@else
+                            {!! $translator->setTarget('en')->translate(clean($about->about_description)) !!}
+                            @endif
                 </div>
             </div>
             <div class="col-lg-5">
@@ -62,14 +74,18 @@
             </div>
             <div class="col-md-6 pt_30">
                 <div class="mission-text">
-                    {!! clean($about->mission_description) !!}
+                @if($setting->text_direction=='RTL'){!! clean($about->mission_description)!!}@else
+                            {!! $translator->setTarget('en')->translate(clean($about->mission_description)) !!}
+                            @endif
                 </div>
             </div>
         </div>
         <div class="row mt_40">
             <div class="col-md-6 pt_30">
                 <div class="mission-text">
-                    {!! clean($about->vision_description) !!}
+                @if($setting->text_direction=='RTL'){!! clean($about->vision_description)!!}@else
+                            {!! $translator->setTarget('en')->translate(clean($about->vision_description)) !!}
+                            @endif 
                 </div>
             </div>
             <div class="col-md-6 pt_30">
@@ -96,7 +112,9 @@
                        <span style="color:#fff;font-size: large;font-weight: 800;">+</span>
                        <h2 class="counter">{{ $overview->qty }}</h2>
                     </div>
-                    <h4>{{ $overview->name }}</h4>
+                    <h4>@if($setting->text_direction=='RTL'){!! $overview->name!!}@else
+                            {!! $translator->setTarget('en')->translate($overview->name) !!}
+                            @endif</h4>
                 </div>
             </div>
             @endforeach
@@ -115,8 +133,14 @@
 <div class="row ov_hd">
     <div class="col-md-12 wow fadeInDown">
                 <div class="main-headline">
-                    <h1><span>{{ ucfirst($work_section->first_header) }}</span> {{ ucfirst($work_section->second_header) }}</h1>
-                    <p>{{ $work_section->description }}</p>
+                    <h1><span>@if($setting->text_direction=='RTL'){{ ucfirst($work_section->first_header)}}@else
+                            {{ $translator->setTarget('en')->translate(ucfirst($work_section->first_header)) }}
+                            @endif</span> @if($setting->text_direction=='RTL'){{ ucfirst($work_section->second_header)}}@else
+                            {{ $translator->setTarget('en')->translate(ucfirst($work_section->second_header)) }}
+                            @endif</h1>
+                    <p>@if($setting->text_direction=='RTL'){{ $work_section->description}}@else
+                            {{ $translator->setTarget('en')->translate($work_section->description) }}
+                            @endif</p>
                 </div>
             </div>
 
@@ -130,10 +154,14 @@
             <use href="/web/assets/images/icons/icons.svg?v=272#quote"></use>
           </svg>
           <p>
-              {!! clean($faq->answer) !!}.
+          @if($setting->text_direction=='RTL'){!! clean($faq->answer)!!}@else
+                            {!! $translator->setTarget('en')->translate(clean($faq->answer)) !!}
+                            @endif.
           </p>
           <h6 class="color">
-             {{ $faq->question }}  
+          @if($setting->text_direction=='RTL'){{ $faq->question}}@else
+                            {{ $translator->setTarget('en')->translate($faq->question) }}
+                            @endif  
           </h6>
           
         </div>

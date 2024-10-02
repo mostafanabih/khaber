@@ -1255,7 +1255,7 @@ Why Us
 
 .choose-icon {
     position: relative;
-    margin-bottom: 20px;
+    margin: auto;
 }
 
 .choose-icon i {
@@ -2214,7 +2214,7 @@ Single Portfolio
     width: 0;
     height: 0;
     top: 4px;
-    border-left: 28px solid #f1634c;
+    border-left: 28px solid #6da32b;
     border-top: 18px solid transparent;
     border-bottom: 18px solid transparent;
     transition: all 0.3s;
@@ -5167,6 +5167,134 @@ textarea.form-control {
 .contact-form .btn:hover {
     border: 1px solid #f1634c;
     background: #f1634c;
+}
+
+
+
+
+
+
+
+
+
+/* General Styles */
+.contauct-style1 {
+    padding-top: 50px;
+    padding-bottom: 65px;
+}
+
+/* Contact Info Item Styles */
+.contact-info-item {
+    box-shadow: 0 3.4px 2.7px -30px rgba(0, 0, 0, 0.059),
+                0 8.2px 8.9px -30px rgba(0, 0, 0, 0.071),
+                0 25px 40px -30px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    border-radius: 3px;
+    margin-bottom: 30px; /* Uniform margin for spacing */
+}
+
+.contact-info-item.bg1 {
+    background: #f1634c;
+}
+
+.contact-info-item.bg2 {
+    background: #0674c3;
+}
+
+.contact-info-item.bg3 {
+    background: #f1634c;
+}
+
+.contact-info-item .contact-info {
+    padding: 22px 30px;
+}
+
+.contact-info-item .contact-info span {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+    color: #fff;
+}
+
+.contact-info-item .contact-info span i {
+    margin-right: 5px;
+}
+
+.contact-info-item .contact-text p {
+    margin-bottom: 3px;
+    font-size: 17px;
+}
+
+.contact-info-item .contact-text a {
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+}
+
+/* Form Labels */
+.contauct-style1 .form-group label {
+    font-family: "Cairo", sans-serif;
+    font-weight: 600;
+    display: block; /* Ensure labels take full width */
+    margin-bottom: 5px; /* Space between label and input */
+}
+
+/* Input and Textarea Styles */
+.form-control {
+    border: 1px solid #bfbfbf;
+    border-radius: 0;
+    height: 44px; /* Consistent height for inputs */
+    box-shadow: none;
+    background: none;
+    padding: 10px; /* Add padding for better touch targets */
+    font-size: 16px; /* Set a base font size */
+}
+
+/* Focus State */
+.form-control:focus {
+    box-shadow: none;
+    border-color: #0674c3; /* Change border color on focus */
+}
+
+/* Textarea Specific Styles */
+textarea.form-control {
+    height: 170px; /* Specific height for textarea */
+    resize: vertical; /* Allow vertical resizing */
+}
+
+/* Button Styles */
+.contact-form .btn {
+    cursor: pointer;
+    display: inline-block;
+    font-weight: 600;
+    padding: 14px 30px;
+    border: 1px solid #0674c3;
+    border-radius: 0;
+    background: #0674c3;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+/* Hover State for Button */
+.contact-form .btn:hover {
+    border-color: #f1634c;
+    background: #f1634c;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .contact-info-item {
+        margin-bottom: 20px; /* Adjust margin for smaller screens */
+    }
+
+    .form-control {
+        height: auto; /* Allow auto height for smaller screens */
+    }
+
+    .contact-text a {
+        font-size: 18px; /* Slightly smaller font for links */
+    }
 }
 
 
@@ -11921,6 +12049,179 @@ button {
         
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+/* Modal Background */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1050; /* Above other elements */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%; /* Responsive width */
+    max-width: 500px; /* Maximum width */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal Header */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Modal Title */
+.modal-title {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+/* Close Button */
+.close {
+    font-size: 1.5rem;
+    color: #aaa;
+    cursor: pointer;
+}
+
+/* Modal Body */
+.modal-body {
+    padding: 15px 0;
+}
+
+/* Form Controls */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Form Labels */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Select and Input Styles */
+.select2-container {
+    width: 100% !important; /* Ensure select boxes are full width */
+}
+
+input[type="text"],
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Button Styles */
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .modal-content {
+        margin: 10% auto; /* Adjust top margin for smaller screens */
+    }
+
+    .modal-title {
+        font-size: 1.25rem; /* Smaller title on mobile */
+    }
+}
+
+
+
+/* General Input Styles */
+input[type="text"],
+select {
+    width: 100%;
+    padding: 12px; /* Increased padding for better touch targets */
+    border: 1px solid #ced4da; /* Light gray border */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 1rem; /* Base font size */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+}
+
+/* Input Focus State */
+input[type="text"]:focus,
+select:focus {
+    outline: none; /* Remove default outline */
+    border-color: #007bff; /* Change border color on focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Soft blue shadow */
+}
+
+/* Placeholder Styles */
+input::placeholder {
+    color: #999; /* Lighter color for placeholder text */
+    opacity: 1; /* Ensure full opacity */
+}
+
+/* Disabled Input Styles */
+input[disabled],
+select[disabled] {
+    background-color: #e9ecef; /* Light gray background */
+    border-color: #ced4da; /* Same light gray border */
+    cursor: not-allowed; /* Change cursor to indicate disabled state */
+}
+
+/* Error State Styles */
+.input-error {
+    border-color: #dc3545; /* Red border for errors */
+    background-color: #f8d7da; /* Light red background */
+}
+
+/* Error Message Styles */
+.error-message {
+    color: #dc3545; /* Red text for error messages */
+    font-size: 0.875rem; /* Smaller font size */
+    margin-top: 5px; /* Space above error message */
+}
+
+/* Responsive Styles for Inputs */
+@media (max-width: 768px) {
+    input[type="text"],
+    select {
+        font-size: 0.9rem; /* Slightly smaller font on mobile */
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
+}
+
+
 
 
 

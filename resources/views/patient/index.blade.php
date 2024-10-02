@@ -33,30 +33,44 @@ $translator = new Stichoza\GoogleTranslate\GoogleTranslate('ar');
                     <form action="{{ url('search-doctor') }}">
                     <div class="box">
                         <select name="location" class="form-control select2">
-                            <option value="">{{ $websiteLang->where('lang_key','select_loc')->first()->custom_lang }}</option>
+                            <option value="">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','select_loc')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','select_loc')->first()->custom_lang) }}
+                            @endif</option>
                             @foreach ($locations as $location)
-                            <option {{ @$location_id==$location->id?'selected':'' }} value="{{ $location->id }}">{{ ucwords($location->location) }}</option>
+                            <option {{ @$location_id==$location->id?'selected':'' }} value="{{ $location->id }}">@if($setting->text_direction=='RTL'){{ ucwords($location->location)}}@else
+                            {{ $translator->setTarget('en')->translate(ucwords($location->location)) }}
+                            @endif</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="box">
                         <select name="department" class="form-control select2">
-                            <option value="">{{ $websiteLang->where('lang_key','select_dep')->first()->custom_lang }}</option>
+                            <option value="">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','select_dep')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','select_dep')->first()->custom_lang) }}
+                            @endif</option>
                             @foreach ($departmentsForSearch as $department)
-                            <option {{ @$department_id==$department->id?'selected':'' }} value="{{ $department->id }}">{{ ucwords($department->name) }}</option>
+                            <option {{ @$department_id==$department->id?'selected':'' }} value="{{ $department->id }}">@if($setting->text_direction=='RTL'){{ ucwords($department->name)}}@else
+                            {{ $translator->setTarget('en')->translate(ucwords($department->name)) }}
+                            @endif</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="box">
                         <select name="doctor" class="form-control select2">
-                            <option value="">{{ $websiteLang->where('lang_key','select_doc')->first()->custom_lang }}</option>
+                            <option value="">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','select_doc')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','select_doc')->first()->custom_lang) }}
+                            @endif</option>
                             @foreach ($doctorsForSearch as $doctor)
-                            <option {{ @$doctor_id==$doctor->id?'selected':'' }} value="{{ $doctor->id }}">{{ ucwords($doctor->name) }}</option>
+                            <option {{ @$doctor_id==$doctor->id?'selected':'' }} value="{{ $doctor->id }}">@if($setting->text_direction=='RTL'){{ ucwords($doctor->name)}}@else
+                            {{ $translator->setTarget('en')->translate(ucwords($doctor->name)) }}
+                            @endif</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="doc-search-button">
-                        <button type="submit" class="btn btn-danger">{{ $websiteLang->where('lang_key','search')->first()->custom_lang }}</button>
+                        <button type="submit" class="btn btn-danger">@if($setting->text_direction=='RTL'){{ $websiteLang->where('lang_key','search')->first()->custom_lang}}@else
+                            {{ $translator->setTarget('en')->translate($websiteLang->where('lang_key','search')->first()->custom_lang) }}
+                            @endif</button>
                     </div>
                 </form>
                 </div>
@@ -174,14 +188,22 @@ $translator = new Stichoza\GoogleTranslate\GoogleTranslate('ar');
      @foreach ($workFaqs as $faqIndex => $faq)   
       <div class="swiper-slide">
         <div class="testimonial d-flex align-items-center justify-content-center flex-column text-center">
+
+        
+
+
           <svg class="icon">
-            <use href="/web/assets/images/icons/icons.svg?v=272#quote"></use>
+            <use href="{{ $work->image ? url($work->image) : '' }}"></use>
           </svg>
           <p>
-              {!! clean($faq->answer) !!}.
+          @if($setting->text_direction=='RTL'){!! clean($faq->answer)!!}@else
+                            {!! $translator->setTarget('en')->translate(clean($faq->answer)) !!}
+                            @endif.
           </p>
           <h6 class="color">
-             {{ $faq->question }}  
+          @if($setting->text_direction=='RTL'){{ $faq->question}}@else
+                            {{ $translator->setTarget('en')->translate($faq->question) }}
+                            @endif  
           </h6>
           
         </div>
@@ -201,13 +223,13 @@ $translator = new Stichoza\GoogleTranslate\GoogleTranslate('ar');
 <div class="video" data-toggle="modal" data-target="#reviewVideo">
 <div class="video__thumb aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
 <picture>
-<source class=" lazyloading" src="https://khaber.ksa-api.com/uploads/website-images/video.webp" data-srcset="https://khaber.ksa-api.com/uploads/website-images/video.webp" type="image/webp" srcset="https://khaber.ksa-api.com/uploads/website-images/video.webp"><img class=" lazyloaded" src="https://khaber.ksa-api.com/uploads/website-images/video.webp" data-src="https://khaber.ksa-api.com/uploads/website-images/video.webp" draggable="false" loading="lazy" alt="video name">
+<source class=" lazyloading" src="{{ $work->image ? url($work->image) : '' }}" data-srcset="{{ $work->image ? url($work->image) : '' }}" type="image/webp" srcset="{{ $work->image ? url($work->image) : '' }}"><img class=" lazyloaded" src="{{ $work->image ? url($work->image) : '' }}" data-src="{{ $work->image ? url($work->image) : '' }}" draggable="false" loading="lazy" alt="video name">
 </picture>
 </div>
 <div class="video__btn-container">
 <div class="video__btn">
-    <a href="https://www.youtube.com/watch?v=G07V0aOmWTI">
-       <i class="fas fa-play" style="color: #6ca22a;"></i>
+    <a class="video-button mgVideo" href="{{ $work->video }}">
+    <span></span>
     </a>
 </div>
 </div>
@@ -481,11 +503,12 @@ $doctor_section=$homesections->where('section_type',6)->first();
         <div class="row">
             <div class="col-md-12">
                 <div class="main-headline">
-                    <h1><span>@if($setting->text_direction=='RTL'){{ ucfirst($doctor_section->first_header)}}@else
+                <h1><span>@if($setting->text_direction=='RTL'){{ ucfirst($doctor_section->first_header)}}@else
                             {{ $translator->setTarget('en')->translate(ucfirst($doctor_section->first_header)) }}
-                            @endif</span>@if($setting->text_direction=='RTL'){{ ucfirst($doctor_section->second_header)}}@else
+                            @endif</span> @if($setting->text_direction=='RTL'){{ ucfirst($doctor_section->second_header)}}@else
                             {{ $translator->setTarget('en')->translate(ucfirst($doctor_section->second_header)) }}
                             @endif</h1>
+                    
                     <p>@if($setting->text_direction=='RTL'){{ $doctor_section->description}}@else
                             {{ $translator->setTarget('en')->translate($doctor_section->description) }}
                             @endif</p>
@@ -504,7 +527,9 @@ $doctor_section=$homesections->where('section_type',6)->first();
                             <a href="{{ url('doctor-details/'.$doctor->slug) }}">@if($setting->text_direction=='RTL'){{ $doctor->name}}@else
                             {{ $translator->setTarget('en')->translate($doctor->name) }}
                             @endif</a>
-                            <p>{{ $doctor->department->name }}</p>
+                            <p>@if($setting->text_direction=='RTL'){{ $doctor->department->name}}@else
+                            {{ $translator->setTarget('en')->translate($doctor->department->name) }}
+                            @endif</p>
                             <p><span><i class="fas fa-graduation-cap"></i> @if($setting->text_direction=='RTL'){{ $doctor->designations}}@else
                             {{ $translator->setTarget('en')->translate($doctor->designations) }}
                             @endif</span></p>
@@ -642,7 +667,7 @@ $blog_section=$homesections->where('section_type',7)->first();
                 <img src="{{url($offer->image)}}" class="img-fluid offer-image" alt="Offer Image">
             </div>
             <div class="modal-footer">
-                <a href="{{route('offers')}}" type="button" class="btn" style="background-color: #002945; width: 50%; margin: auto; padding: 10px; color: #fff; font-size: medium;">@if($setting->text_direction=='RTL')"كل العروض"@else
+                <a href="{{route('offers')}}" type="button" class="btn" style="background-color: #002945; width: 50%; margin: auto; padding: 10px; color: #fff; font-size: medium;">@if($setting->text_direction=='RTL')كل العروض@else
                             {{ $translator->setTarget('en')->translate("كل العروض") }}
                             @endif </a>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="margin-left: 1px;"></button>
